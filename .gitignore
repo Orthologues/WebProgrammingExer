@@ -1,0 +1,4 @@
+~/Downloads/
+*.fasta
+*.fastq
+**fasta/

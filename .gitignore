@@ -1,4 +1,7 @@
 ~/Downloads/
 *.fasta
 *.fastq
-**fasta/
+*fasta/
+*.docx
+*.doc
+*.pdf

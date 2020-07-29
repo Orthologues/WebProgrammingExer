@@ -1,0 +1,48 @@
+body {
+  background-image: url("../img/jp_theme_1.jpg");
+}
+
+hr {
+  height: 0;
+  width: 85%;
+  border-color: #f5f1da;
+  border-style: none;
+  border-width: 8px;
+  border-bottom-style: dashed;
+}
+
+h1 {
+  background-color: inherit;
+  margin-top: 3%;
+  margin-left: 3%;
+  color: #900d0d;
+}
+
+h3 {
+  color: #900d0d;
+  margin-left: 5%
+}
+
+ul{
+  margin-left: 5%;
+}
+
+table{
+  margin-left: 10%;
+}
+
+img{
+  margin-left: 20%;
+}
+
+p{
+  margin-left: 5%;
+}
+
+h2 {
+  background-color: inherit;
+  margin-left: 7.5%;
+  margin-top: 3%;
+  margin-bottom: 5%;
+  color: #d3de32;
+}

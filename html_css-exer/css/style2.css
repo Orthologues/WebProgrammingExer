@@ -1,0 +1,36 @@
+body {
+  background-color: #86c4ba;
+}
+
+hr {
+  height: 0;
+  width: 50%;
+  border-color: #59405c;
+  border-style: none;
+  border-width: 4px;
+  border-top-style: dotted;
+}
+
+h2 {
+  background-color: inherit;
+  margin-left: 3%;
+  margin-top: 3%;
+  color: #d3de32;
+}
+
+ul{
+  margin-left: 5%;
+}
+
+table{
+  margin-left: 10%;
+}
+
+form{
+  margin-top: 3%;
+  margin-left: 5%;
+}
+
+p{
+  margin-left: 5%;
+}

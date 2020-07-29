@@ -2,6 +2,11 @@ body {
   background-color: #86c4ba;
 }
 
+form {
+  margin-top: 3%;
+  margin-left: 5%;
+}
+
 hr {
   height: 0;
   width: 50%;
@@ -18,19 +23,14 @@ h2 {
   color: #d3de32;
 }
 
-ul{
+p {
   margin-left: 5%;
 }
 
-table{
+table {
   margin-left: 10%;
 }
 
-form{
-  margin-top: 3%;
-  margin-left: 5%;
-}
-
-p{
+ul {
   margin-left: 5%;
 }

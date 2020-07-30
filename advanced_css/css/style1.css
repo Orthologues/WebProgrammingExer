@@ -1,0 +1,37 @@
+.upperbox{
+  background: lightblue;
+  width: 200px;
+  height: 200px;
+  padding: 20px;
+  border: solid 10px;
+  border-color: black;
+}
+
+.upperh1{
+  font-size: 200%;
+  color: green;
+  margin-left: 10%;
+}
+
+.upperh3{
+  font-size: 100%;
+  margin-left: 20%;
+}
+
+.middlebox{
+  background-color: red;
+  margin-left: 260px;
+  width: 200px;
+  height: 200px;
+  border: solid 20px;
+  border-color: black;
+}
+
+.bottombox{
+  background-color: yellow;
+  margin-left: 500px;
+  width: 200px;
+  height: 200px;
+  border: solid 10px;
+  border-color: black;
+}

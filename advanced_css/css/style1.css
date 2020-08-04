@@ -1,3 +1,7 @@
+a{
+    color:black;
+}
+
 body {
   margin: 0px;
   text-align: center;
@@ -85,7 +89,7 @@ img.uppercloud {
 }
 
 .upperh1 {
-  color: green;
+  color: #11999E;
   display: inline-block;
   font-family: 'Marko One', serif;
   font-size: 200%;
@@ -93,10 +97,11 @@ img.uppercloud {
 }
 
 .upperh3 {
-  color: white;
+  color: #f5f1da;
   display: inline-block;
   font-size: 150%;
   font-family: 'Marko One', serif;
+  font-weight: normal;
   margin: 0 auto;
   padding-left: 1%;
 }

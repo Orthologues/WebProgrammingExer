@@ -1,5 +1,4 @@
 body{
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: 0px;
   text-align: center;
 }
@@ -23,7 +22,7 @@ img.bottomcloud{
   right: 10%;
   padding-top: 20px;
   padding-bottom: 20px;
-  position: fixed;
+  position: absolute;
   text-align: center;
 }
 
@@ -47,7 +46,7 @@ img.bottomcloud{
 .middlebox{
   background-color: #b0cac7;
   position: relative;
-  margin: 40% 20px 5% 20px;
+  margin: 40% 20px 0% 20px;
   padding-top: 30px;
   padding-bottom: 30px;
   text-align: center;
@@ -65,4 +64,15 @@ img.bottomcloud{
   font-size: 300%;
   font-family: 'Allura', cursive;
   margin:0 auto;
+}
+
+.middle-container{
+  font-family: 'Marko One', serif;
+  position: relative;
+}
+
+.bottom-container{
+  font-family: 'Marko One', serif;
+  position: relative;
+  margin-top: 2%;
 }

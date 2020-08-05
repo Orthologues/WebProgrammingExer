@@ -3,6 +3,7 @@ a{
 }
 
 body {
+  border: 0px;
   margin: 0px;
   text-align: center;
 }
@@ -19,31 +20,22 @@ hr {
   position: relative;
 }
 
-img.bottomcloud {
+.bottomcloud{
   position: absolute;
-  right: 30px;
-  top: 30px;
-}
-
-img.uppercloud {
-  position: absolute;
-  left: 5%;
-  top: 5%;
-}
-
-.bottombox {
-  margin-top: 0% auto 2% auto;
-  position: relative;
-  text-align: center;
+  margin: 0 auto;
+  right: 20%;
 }
 
 .bottom-container {
+  background-color: #dd2c00;
   font-family: 'Marko One', serif;
   margin-top: 2%;
+  margin-bottom: 0;
+  padding:3% 0;
   position: relative;
 }
 
-.btn-img{
+.email-img{
   position: relative;
   width: 10%;
   height:10%;
@@ -57,18 +49,26 @@ img.uppercloud {
   position: relative;
 }
 
-.middlebox {
-  background-color: #b0cac7;
-  position: relative;
-  margin: 16% 0 0 0;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  text-align: center;
+.it-skill{
+  display: inline-block;
+  float: left;
+  line-height: 2;
+  margin: auto 3% auto 7%;
+  padding-top: 0;
+  width: 40%;
+}
+
+.language-skill{
+  display: inline-block;
+  margin: auto 7% auto 3%;
+  line-height: 2;
+  padding-top: 0;
+  width: 40%;
 }
 
 .middle-container {
   font-family: 'Marko One', serif;
-  margin-top: 2%;
+  margin-top: 3%;
   position: relative;
 }
 
@@ -77,15 +77,33 @@ img.uppercloud {
   height: 12%;
 }
 
+.skill-subtext{
+  color: #40514E;
+  line-height: 2;
+  text-align: left;
+}
+
+.subtext{
+    color: #40514E;
+    line-height: 2;
+}
+
+.top-container{
+  background-color: #b2ebf2;
+  padding-top: 3%;
+  padding-bottom: 0;
+}
+
 .upperbox {
-  background: lightblue;
-  top: 6%;
-  left: 10%;
-  right: 10%;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  position: absolute;
   text-align: center;
+  margin: 5% auto 3%;
+  padding: 0;
+}
+
+.uppercloud{
+  position: absolute;
+  left: 5%;
+  top: 8%;
 }
 
 .upperh1 {
@@ -104,6 +122,15 @@ img.uppercloud {
   font-weight: normal;
   margin: 0 auto;
   padding-left: 1%;
+}
+
+#disclaimer{
+  color: #f3f3f3;
+  font-weight: bold;
+}
+
+#my-skills{
+  margin-bottom: 0;
 }
 
 #upper-signature {

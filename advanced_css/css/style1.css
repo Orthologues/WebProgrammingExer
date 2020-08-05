@@ -1,5 +1,5 @@
-a{
-    color:black;
+a {
+  color: black;
 }
 
 body {
@@ -20,9 +20,9 @@ hr {
   position: relative;
 }
 
-.bottomcloud{
+.bottomcloud {
+  margin: 2% auto;
   position: absolute;
-  margin: 0 auto;
   right: 20%;
 }
 
@@ -31,14 +31,14 @@ hr {
   font-family: 'Marko One', serif;
   margin-top: 2%;
   margin-bottom: 0;
-  padding:3% 0;
+  padding: 3% 0;
   position: relative;
 }
 
-.email-img{
+.email-img {
   position: relative;
   width: 10%;
-  height:10%;
+  height: 10%;
   margin: 3% auto;
 }
 
@@ -49,7 +49,7 @@ hr {
   position: relative;
 }
 
-.it-skill{
+.it-skill {
   display: inline-block;
   float: left;
   line-height: 2;
@@ -58,7 +58,7 @@ hr {
   width: 40%;
 }
 
-.language-skill{
+.language-skill {
   display: inline-block;
   margin: auto 7% auto 3%;
   line-height: 2;
@@ -77,18 +77,18 @@ hr {
   height: 12%;
 }
 
-.skill-subtext{
+.skill-subtext {
   color: #40514E;
   line-height: 2;
   text-align: left;
 }
 
-.subtext{
-    color: #40514E;
-    line-height: 2;
+.subtext {
+  color: #40514E;
+  line-height: 2;
 }
 
-.top-container{
+.top-container {
   background-color: #b2ebf2;
   padding-top: 3%;
   padding-bottom: 0;
@@ -100,7 +100,7 @@ hr {
   padding: 0;
 }
 
-.uppercloud{
+.uppercloud {
   position: absolute;
   left: 5%;
   top: 8%;
@@ -124,12 +124,12 @@ hr {
   padding-left: 1%;
 }
 
-#disclaimer{
+#disclaimer {
   color: #f3f3f3;
   font-weight: bold;
 }
 
-#my-skills{
+#my-skills {
   margin-bottom: 0;
 }
 

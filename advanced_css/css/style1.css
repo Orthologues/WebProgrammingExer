@@ -45,6 +45,11 @@ img {
   right: 20%;
 }
 
+.bottombox{
+  padding: 0;
+  outline: 0;
+}
+
 .bottom-container {
   background-color: #dd2c00;
   font-family: 'Marko One', serif;
@@ -210,7 +215,7 @@ img {
   color: #11999E;
   font-family: 'Marko One', serif;
   font-size: 16px;
-  font-size: 4vw;
+  font-size: 3vw;
   /*  100 = viewport width, as 1vw = 1/100th of that
       Here, the body is 150% of viewport, but the container is 50%
       of viewport, so both parents factor  into how you want it to size.
@@ -224,10 +229,11 @@ img {
 .upperh3 {
   color: white;
   font-size: 16px;
-  font-size: 4vw;
+  font-size: 3vw;
   font-family: 'Marko One', serif;
   font-weight: normal;
   margin: 0 auto;
+    padding-bottom: 2%;
 }
 
 #disclaimer {

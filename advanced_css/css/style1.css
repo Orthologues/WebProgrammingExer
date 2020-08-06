@@ -8,6 +8,16 @@ body {
   text-align: center;
 }
 
+h2{
+  font-size: 16px;
+  font-size: 2.8vw;
+}
+
+h3{
+  font-size: 16px;
+  font-size: 1.8vw;
+}
+
 hr {
   height: 0;
   width: 85%;
@@ -29,7 +39,8 @@ img {
 }
 
 .bottomcloud {
-  margin: 2% auto;
+  width: 10%;
+  height: auto;
   position: absolute;
   right: 20%;
 }
@@ -55,14 +66,14 @@ img {
   border-radius: 13px;
   color: #FFFFFF;
   font-family: Open Sans;
-  font-size: 20px;
+  font-size: 2.5vw;
   font-weight: bold;
   margin: 0 auto;
-  padding: 20px;
-  box-shadow: 1px 1px 20px 0px #000000;
-  -webkit-box-shadow: 1px 1px 20px 0px #000000;
-  -moz-box-shadow: 1px 1px 20px 0px #000000;
-  text-shadow: 1px 1px 20px #000000;
+  padding: 13px;
+  box-shadow: 1px 1px 5px 0px #000000;
+  -webkit-box-shadow: 1px 1px 5px 0px #000000;
+  -moz-box-shadow: 1px 1px 5px 0px #000000;
+  text-shadow: 1px 1px 10px #000000;
   border: solid #337FED 1px;
   text-decoration: none;
   display: inline-block;
@@ -86,6 +97,8 @@ img {
 }
 
 .edutime {
+  font-size: 16px;
+  font-size: 1.6vw;
   text-align: left;
 }
 
@@ -109,16 +122,17 @@ img {
 
 .it-skill {
   display: inline-block;
-  float: left;
   line-height: 2;
   margin: auto 3% auto 7%;
-  padding-top: 0;
-  padding-bottom: 1.5%;
+  padding: 0 auto;
   width: 40%;
 }
 
 .language-skill {
   display: inline-block;
+  font-size: 16px;
+  font-size: 1.8vw;
+  float: right;
   margin: auto 7% auto 3%;
   line-height: 2;
   padding-top: 0;
@@ -132,6 +146,11 @@ img {
   position: relative;
 }
 
+.mountain{
+  height: auto;
+  width: 80%;
+}
+
 .profile-image {
   width: 12%;
   height: 12%;
@@ -139,6 +158,8 @@ img {
 
 .skill-subtext {
   color: #40514E;
+  font-size: 16px;
+  font-size: 1.8vw;
   line-height: 2;
   text-align: left;
 }
@@ -153,6 +174,8 @@ img {
 
 .subtext {
   color: #40514E;
+  font-size: 16px;
+  font-size: 1.4vw;
   line-height: 2;
 }
 
@@ -176,6 +199,8 @@ img {
 }
 
 .uppercloud {
+  width: 10%;
+  height: auto;
   position: absolute;
   left: 5%;
   top: 8%;
@@ -183,26 +208,33 @@ img {
 
 .upperh1 {
   color: #11999E;
-  display: inline-block;
   font-family: 'Marko One', serif;
-  font-size: 200%;
-  margin: 0 auto;
+  font-size: 16px;
+  font-size: 4vw;
+  /*  100 = viewport width, as 1vw = 1/100th of that
+      Here, the body is 150% of viewport, but the container is 50%
+      of viewport, so both parents factor  into how you want it to size.
+      Let's say you like 5vw if it were the whole width,
+      then for this container, size it at 3.75vw
+      (5 * 1.5 [i.e. 150%]) * .5 [i.e. 50%]
+  */
+  margin: 0 5%;
 }
 
 .upperh3 {
   color: white;
-  display: inline-block;
-  font-size: 150%;
+  font-size: 16px;
+  font-size: 4vw;
   font-family: 'Marko One', serif;
   font-weight: normal;
   margin: 0 auto;
-  padding-left: 1%;
-  padding-right: 0.7%;
 }
 
 #disclaimer {
   color: #f3f3f3;
   font-weight: lighter;
+  font-size: 16px;
+  font-size: 1.2vw;
 }
 
 #my-skills {
@@ -212,7 +244,8 @@ img {
 #upper-signature {
   color: #3c2c3e;
   display: inline-block;
-  font-size: 300%;
+  font-size: 16px;
+  font-size: 10vw;
   font-family: 'Allura', cursive;
   margin: 0 auto;
 }

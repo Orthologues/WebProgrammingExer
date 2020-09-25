@@ -19,7 +19,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
   <!-- Font Awesome JQuery scripts -->
   <script src="https://use.fontawesome.com/releases/v5.14.0/js/all.js" data-auto-replace-svg="nest"></script>
-  <script type="text/javascript" src="../../js_exer_basic/alert.js"></script>
+  <script type="text/javascript" id="alert-test" src="../../js_exer_basic/alert.js"></script>
 </head>
 
 <body>
@@ -46,6 +46,14 @@
         </div>
       </nav>
 
+      <form action="index.html" method="post" enctype="multipart/form-data" name="yearForm" onsubmit="return leap_year_alert()">
+        <div class="padding-horizontal"></div>
+        <h3>Check if a year is a leap year</h3>
+        <input id="leap-year-text" name="yearQuery"></input>
+        <div id="leap-year-btn">
+          <input type="submit" value="See the result!" class="btn btn-dark btn-sm"></input>
+        </div>
+      </form>
 
       <!-- Title -->
       <div class="padding-horizontal"></div>
@@ -173,6 +181,19 @@
     <p>© Copyright 2018 TinDog</p>
 
   </footer>
+
+  <script id="alert-test">
+    function leap_year_alert() {
+      var year = document.forms["yearForm"]["yearQuery"].value;
+      year = parseInt(year);
+      console.log(typeof(year));
+      if (Number.isInteger(year)) {
+        alert(isLeap(year));
+      } else {
+        alert("Please type a valid year!");
+      }
+    }
+  </script>
 
 
 </body>

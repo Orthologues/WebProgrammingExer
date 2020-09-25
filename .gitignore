@@ -6,5 +6,6 @@
 *.doc
 *.pdf
 *.DS_Store
+*tern*
 advanced_css/StubCode.html
 bootstrap/bootstrap-4.5.2/*

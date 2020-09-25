@@ -57,7 +57,7 @@ h3{
 }
 
 .padding-horizontal{
-  height: 5vw;
+  height: 2rem;
   width: inherit;
 }
 
@@ -75,4 +75,16 @@ h3{
 
 #features{
   padding: 7.5% 15% 2%;
+}
+
+#leap-year-btn{
+  margin: 0.8rem 0rem 0rem;
+  padding-right: 0;
+}
+
+#leap-year-text{
+  padding: .3rem .5rem;
+  margin-top: 0.5rem;
+  margin-right: 1rem;
+  width: 120px;
 }

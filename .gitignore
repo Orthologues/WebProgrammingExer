@@ -5,5 +5,6 @@
 *.docx
 *.doc
 *.pdf
+*.DS_Store
 advanced_css/StubCode.html
 bootstrap/bootstrap-4.5.2/*

@@ -6,62 +6,61 @@
   <title>TinDog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+  <!-- type in cmd/ctrl and slash to comment -->
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,900;1,300;1,500&display=swap" rel="stylesheet">
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Ubuntu" rel="stylesheet">
+  <!-- my own stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
-</head>
-
-<body>
+  <!-- bootstrap js -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
-  <section id="title">
+  <!-- Font Awesome JQuery scripts -->
+  <script src="https://use.fontawesome.com/releases/v5.14.0/js/all.js" data-auto-replace-svg="nest"></script>
+  <script type="text/javascript" src="../../js_exer_basic/alert.js"></script>
+</head>
+
+<body>
+  <section class="web-title">
     <div class="container-fluid">
-
-
       <!-- Nav Bar -->
       <nav class="navbar navbar-expand-md navbar-dark">
         <a class="navbar-brand" href="#">TinDog</a>
         <button class="navbar-toggler mr-auto" type="button" data-toggle="collapse" data-target="#TitleContent" aria-controls="TitleContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="TitleContent">
-          <ul class="navbar-nav mx-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#">About us </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Dog breeds & personalities </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Behaviour & Training </a>
-            </li>
-          </ul>
-
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#">Nutrition & Health Care </a>
+              <a class="nav-link" href="#">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contact us </a>
+              <a class="nav-link" href="#">Pricing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Download</a>
             </li>
           </ul>
         </div>
       </nav>
 
-      <!-- Title -->
 
+      <!-- Title -->
+      <div class="padding-horizontal"></div>
       <div class="row">
         <div class="col-lg-6">
           <h1>Meet new and interesting dogs nearby.</h1>
-          <button type="button">Download</button>
-          <button type="button">Download</button>
+          <div class="padding-horizontal"></div>
+          <button type="button" class="btn btn-dark btn-lg"><i class="fab fa-apple"></i> Download</button>
+          <button type="button" class="btn btn-outline-light btn-lg"><span class="fab fa-google-play"></span> Download</button>
+          <div class="padding-horizontal"></div>
+          <div class="padding-horizontal"></div>
         </div>
+
         <div class="col-lg-6">
-          <img src="images/iphone6.png" alt="iphone-mockup">
+          <img class="title-img" src="images/iphone6.png" alt="iphone-mockup">
         </div>
       </div>
 
@@ -72,16 +71,26 @@
   <!-- Features -->
 
   <section id="features">
-
-    <h3>Easy to use.</h3>
-    <p>So easy to use, even your dog could do it.</p>
-
-    <h3>Elite Clientele</h3>
-    <p>We have all the dogs, the greatest dogs.</p>
-
-    <h3>Guaranteed to work.</h3>
-    <p>Find the love of your dog's life or your money back.</p>
-
+    <div class="row">
+      <div class="features-row col-lg-4">
+        <i class="features-img fas fa-check-circle fa-4x"></i>
+        <h3>Easy to use.</h3>
+        <p class="features-text">So easy to use, even your dog could do it.</p>
+        <div class="padding-horizontal"></div>
+      </div>
+      <div class="features-row col-lg-4">
+        <i class="features-img fas fa-bullseye fa-4x"></i>
+        <h3>Elite Clientele</h3>
+        <p class="features-text">We have all the dogs, the greatest dogs.</p>
+        <div class="padding-horizontal"></div>
+      </div>
+      <div class="features-row col-lg-4">
+        <i class="features-img fas fa-heart fa-4x"></i>
+        <h3>Guaranteed to work.</h3>
+        <p class="features-text">Find the love of your dog's life or your money back.</p>
+        <div class="padding-horizontal"></div>
+      </div>
+    </div>
   </section>
 
 

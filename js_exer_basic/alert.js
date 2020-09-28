@@ -27,26 +27,56 @@ function input_name() {
   alert("Your name is: " + test_prompt);
 }
 
-function isLeap(year){
-  var remainder_4=year%4;
-  var remainder_100=year%100;
-  var remainder_400=year%400;
-  if(remainder_4==0){
-    if(remainder_100==0){
-      if(remainder_400==0){
+function isLeap(year) {
+  var remainder_4 = year % 4;
+  var remainder_100 = year % 100;
+  var remainder_400 = year % 400;
+  if (remainder_4 == 0) {
+    if (remainder_100 == 0) {
+      if (remainder_400 == 0) {
         return "Leap year."
-      }else{
+      } else {
         return "Not leap year.";
       }
-    }else{
+    } else {
       return "Leap year.";
     }
-  }else{
+  } else {
     return "Not leap year.";
   }
 }
 
-function main(){
+function whosPaying(names) {
+  var len_person = names.length;
+  // Math.random() only renders to a float number within (0,1)
+  var picked_index = Math.random() * len_person;
+  picked_index = Math.round(picked_index) - 1;
+  var picked_person = names[picked_index];
+  var who_pays = picked_person + ' is going to buy lunch today!'
+  return who_pays;
+}
+
+function fibonacciGenerator(n) {
+  var check_int = Number.isInteger(n);
+  if (check_int === false) {
+    return "Please input a positive integer!"
+  }
+
+  if (n == 1) {
+    return [0];
+  } else if (n == 2) {
+    return [0, 1];
+  } else if (n >= 3) {
+    var fibo = [0, 1];
+    for (var i = 2; i < n; i++) {
+      fibo.push(fibo[i - 1] + fibo[i - 2]);
+    }
+    return fibo;
+  }
+  return "Please input a positive integer!"
+}
+
+function main() {
   // input_name();
 }
 

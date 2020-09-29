@@ -51,6 +51,10 @@ h3{
   margin: 0 18px;
 }
 
+.ni-form-control{
+  margin-left: 0;
+}
+
 .nav-link{
   font-family: "Montserrat-light";
   font-size: 1.2rem;
@@ -82,9 +86,13 @@ h3{
   padding-right: 0;
 }
 
-#leap-year-text{
+#leap-year-input{
   padding: .3rem .5rem;
   margin-top: 0.5rem;
   margin-right: 1rem;
   width: 120px;
+}
+
+#leap-year-text{
+  margin-top: 0.3rem;
 }

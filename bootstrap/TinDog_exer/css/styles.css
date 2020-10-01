@@ -120,7 +120,7 @@ h3 {
 }
 
 .carousel-item{
-  padding: 7.5% 15%;
+  padding: 7.5% 15% 3%;
 }
 
 /* section press */
@@ -132,5 +132,5 @@ h3 {
 
 .press-img {
   width: 15%;
-  margin: 2rem 20px 50px;
+  margin: 20px 50px;
 }

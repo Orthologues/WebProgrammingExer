@@ -8,7 +8,7 @@ This repository consists of my notes and exercises in my Web Development Bootcam
 ```bash
 mkdir -p ~/udemy/WebCamp/
 cd ~/udemy/WebCamp/
-git clone git@github.com:Orthologues/FrontendExercise.git
+git clone git@github.com:Orthologues/WebProgrammingExer.git
 # OR "git remote set-url origin git@github.com:username/repo.git" if url needs to be changed
 ```
 ### perform git push without password

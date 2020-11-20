@@ -5,7 +5,7 @@
   "description": "This directory implements client-server and server-remote interaction as well as json parsing by taking openweathermap API as an example",
   "main": "express_srv.js",
   "scripts": {
-    "test": "node express_srv.js"
+    "start": "nodemon express_srv.js"
   },
   "repository": {
     "type": "git",

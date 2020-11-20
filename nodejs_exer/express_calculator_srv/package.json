@@ -4,8 +4,7 @@
   "description": "exercise in building a preliminary server with express.js",
   "main": "server.js",
   "scripts": {
-    "test": "node server.js",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",

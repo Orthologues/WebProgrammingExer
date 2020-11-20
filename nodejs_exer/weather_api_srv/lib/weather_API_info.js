@@ -1,7 +1,7 @@
 import axios from 'axios';
+import apiKey from './apiKey.js';
 
 const API_header = 'https://api.openweathermap.org/data/2.5/weather?q=';
-const apiKey = '616238293f117bda325f7358a4c5982f';
 
 function getWindDirec(degree) {
   let deg = parseFloat(degree);

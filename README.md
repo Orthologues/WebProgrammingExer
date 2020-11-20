@@ -1,6 +1,6 @@
 # FrontendExercise
 
-This repository consists of my notes and exercises in my Web Development courses on Udemy.
+This repository consists of my notes and exercises in my Web Development courses at Udemy and my React.js courses at Coursera.
 
 ## Links
 

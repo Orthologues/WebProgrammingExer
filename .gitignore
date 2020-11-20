@@ -5,6 +5,7 @@
 *.DS_Store
 *tern*
 *.zip
+*apiKey*
 vue_exer/*
 !vue_exer/Apps
 *MACOSX*
@@ -14,3 +15,5 @@ node_modules
 node_exer_basic/test_files
 notes
 yarn.lock
+.eslintcache
+*.swp

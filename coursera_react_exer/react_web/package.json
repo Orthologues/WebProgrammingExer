@@ -1,8 +1,8 @@
 {
   "name": "ReactWebCourseraExercise",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "private": true,
-  "description": "Week 4, Task1: revise assignment of week3 & split Reducer into separate parts",
+  "description": "Week 4, add redux actions: ADD_COMMENT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

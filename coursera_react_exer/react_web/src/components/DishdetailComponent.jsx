@@ -29,7 +29,8 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        // alert('Current State is: ' + JSON.stringify(values));
         // event.preventDefault();
     }
 
@@ -132,24 +133,47 @@ function RenderDish({dish}) {
     }
 }
 
-function RenderComments({ comments }) {
-    if (comments != null){
+function RenderRatingStars({rating}) {
+
+    let emojiStars = '';
+    if (rating > 0 && rating <= 5) {
+        let index=0; while (index<rating){
+            emojiStars += '⭐';
+            index++;
+        }
         return (
+            <div>{emojiStars}</div>
+        );
+    } else{
+        return (<div></div>);
+    }
+
+}
+
+
+function RenderComments({ comments, addComment, dishId }) {
+    if (comments != null){
+        return (<div>
+
             <ul class="list-unstyled">
                 <h4>Comments</h4>
                 {comments.map(commentObj=>{
                     return (
-                    <div style={{marginTop: "0.5rem"}}>
-                        <li>{commentObj.comment}</li>
+                    <div style={{marginTop: '0.5rem'}}>
+                        <li> <RenderRatingStars rating={commentObj.rating}/> 
+                             {commentObj.comment}
+                        </li>
                         <li>-- {commentObj.author}, {new Intl.DateTimeFormat('en-US', 
                         　　{ year: 'numeric', 
                         　　  month: 'short', 
                         　　  day: '2-digit'}).format(new Date(Date.parse(commentObj.date)))}</li>
-                    </div>
-            );
-        })}
+                    </div> );
+                })}
             </ul>
-        );
+
+            <CommentForm dishId={dishId} addComment={addComment}/>
+
+            </div>);
     } else{
         return (<div></div>);
     }
@@ -172,9 +196,12 @@ const DishDetail = (props) => {
             <div className="col-12 col-md-5 m-1">
                 <RenderDish dish={props.dish} />
             </div>
-            <div className="col-12 col-md-5 m-1">
-                <RenderComments comments={props.comments} />
-                <CommentForm />
+            <div className="col-12 col-md-6">
+                <RenderComments key={props.dish.id}
+                    comments={props.comments}
+                    addComment={props.addComment}
+                    dishId={props.dish.id} 
+                />
             </div>
         </div>
         </div>

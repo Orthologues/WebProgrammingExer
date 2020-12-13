@@ -1,8 +1,8 @@
 {
   "name": "ReactWebCourseraExercise",
-  "version": "3.3.0",
+  "version": "4.0.1",
   "private": true,
-  "description": "react-redux-form exercise of my React Web course at Udemy",
+  "description": "Week 4, Task1: revise assignment of week3 & split Reducer into separate parts",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

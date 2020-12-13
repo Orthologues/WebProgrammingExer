@@ -35,7 +35,7 @@ class CommentForm extends Component {
 
     render() {
 
-        const rateOptions = Array.from(Array(10).keys()).map(key => {
+        const rateOptions = Array.from(Array(5).keys()).map(key => {
             return (
             <option>{key+1}</option>
             )
@@ -59,7 +59,7 @@ class CommentForm extends Component {
                             <Col md={{size: 10, offset: 1}}>
                                 <Label htmlFor="rating">Rating</Label>
                                 <Control.select model=".rating" name="rating"
-                                    defaultValue="10"
+                                    defaultValue="5"
                                     className="form-control">
                                     {rateOptions}
                                 </Control.select>
@@ -68,8 +68,8 @@ class CommentForm extends Component {
     
                         <Row className="form-group">
                             <Col md={{size: 10, offset: 1}}>
-                                <Label htmlFor="yourname">Your Name</Label>
-                                <Control.text model=".yourname" id="yourname" name="yourname"
+                                <Label htmlFor="author">Your Name</Label>
+                                <Control.text model=".author" id="author" name="author"
                                     placeholder="Your Name"
                                     className="form-control"
                                     validators={{
@@ -78,7 +78,7 @@ class CommentForm extends Component {
                                 />
                                 <Errors
                                     className="text-danger"
-                                    model=".yourname"
+                                    model=".author"
                                     show="touched"
                                     messages={{
                                         required: 'Required',

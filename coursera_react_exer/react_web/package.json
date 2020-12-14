@@ -1,8 +1,8 @@
 {
   "name": "ReactWebCourseraExercise",
-  "version": "4.0.2",
+  "version": "4.1.1",
   "private": true,
-  "description": "Week 4, add redux actions: ADD_COMMENT",
+  "description": "Week 4, use redux-thunk to define async & combined redux actions",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -19,6 +19,8 @@
     "react-scripts": "4.0.1",
     "reactstrap": "^8.7.1",
     "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

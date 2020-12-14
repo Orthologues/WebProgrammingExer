@@ -1,8 +1,8 @@
 {
   "name": "ReactWebCourseraExercise",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "private": true,
-  "description": "Week 4, use redux-thunk to define async & combined redux actions",
+  "description": "Week 4, React-Redux-Form Revisited",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

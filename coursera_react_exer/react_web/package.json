@@ -1,8 +1,8 @@
 {
   "name": "ReactWebCourseraExercise",
-  "version": "4.1.2",
+  "version": "4.2.3",
   "private": true,
-  "description": "Week 4, React-Redux-Form Revisited",
+  "description": "Use redux-thunk to fetch json-server and remove local .json data",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -30,7 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "jsonSrv": "cd json_srv_demo && json-server --watch restaurantDb.json -p 3001 -d 2000"
+    "jsonDev": "react-scripts start & cd json_srv_demo && json-server --watch restaurantDb.json -p 3001 -d 2000"
   },
   "eslintConfig": {
     "extends": [

@@ -1,8 +1,8 @@
 {
   "name": "ReactWebCourseraExercise",
-  "version": "4.2.3",
+  "version": "4.2.4",
   "private": true,
-  "description": "Use redux-thunk to fetch json-server and remove local .json data",
+  "description": "Add error handling for Fetch",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

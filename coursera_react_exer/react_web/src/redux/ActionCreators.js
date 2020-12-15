@@ -2,23 +2,7 @@ import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
 
 
-export const addComment = (dishId, rating, author, comment) => ({
-    type: ActionTypes.ADD_COMMENT,
-    payload: {
-        dishId: dishId,
-        rating: rating,
-        author: author,
-        comment: comment
-    }
-});
-
-
-export const fetchDishes = () => dispatch => {
-    return fetch(`${baseUrl}dishes`)
-    .then(response => response.json())
-    .then(dishes => dispatch(addDishes(dishes)));
-}
-
+//dishes
 export const dishesLoading = () => ({
     type: ActionTypes.DISHES_LOADING
 });
@@ -33,12 +17,31 @@ export const addDishes = (dishes) => ({
     payload: dishes
 });
 
-export const fetchComments = () => (dispatch) => {    
-    return fetch(baseUrl + 'comments')
-    .then(response => response.json())
-    .then(comments => dispatch(addComments(comments)));
-};
+export const fetchDishes = () => (dispatch) => {
 
+    dispatch(dishesLoading(true));
+
+    return fetch(`${baseUrl}dishes`)
+    .then(response => {
+        if (response.ok) {  // response code returns 200
+          return response;
+        } else {
+          let nonOkError = new Error(`Error${response.status}: ${response.statusText}`);
+          nonOkError.response = response;
+          throw nonOkError;
+        }
+      },
+      error => {  // rejected by the server?
+            let errmess = new Error(error.message);
+            throw errmess;
+      })
+    .then(response => response.json())
+    .then(dishes => dispatch(addDishes(dishes)))
+    .catch(error => dispatch(dishesFailed(error.message)));
+}
+
+
+//comments
 export const commentsFailed = (errmess) => ({
     type: ActionTypes.COMMENTS_FAILED,
     payload: errmess
@@ -49,15 +52,39 @@ export const addComments = (comments) => ({
     payload: comments
 });
 
-export const fetchPromos = () => (dispatch) => {
+export const addComment = (dishId, rating, author, comment) => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: {
+        dishId: dishId,
+        rating: rating,
+        author: author,
+        comment: comment
+    }
+});
+
+export const fetchComments = () => (dispatch) => {    
     
-    dispatch(promosLoading());
-
-    return fetch(baseUrl + 'promotions')
+    return fetch(`${baseUrl}comments`)
+    .then(response => {
+        if (response.ok) {  // response code returns 200
+          return response;
+        } else {
+          let nonOkError = new Error(`Error${response.status}: ${response.statusText}`);
+          nonOkError.response = response;
+          throw nonOkError;
+        }
+      },
+      error => {  // rejected by the server?
+            let errmess = new Error(error.message);
+            throw errmess;
+      })
     .then(response => response.json())
-    .then(promos => dispatch(addPromos(promos)));
-}
+    .then(comments => dispatch(addComments(comments)))
+    .catch(error => dispatch(commentsFailed(error.message)));
+};
 
+
+//promotion
 export const promosLoading = () => ({
     type: ActionTypes.PROMOS_LOADING
 });
@@ -72,3 +99,25 @@ export const addPromos = (promos) => ({
     payload: promos
 });
 
+export const fetchPromos = () => (dispatch) => {
+    
+    dispatch(promosLoading());
+
+    return fetch(`${baseUrl}promotions`)
+    .then(response => {
+        if (response.ok) {  // response code returns 200
+          return response;
+        } else {
+          let nonOkError = new Error(`Error${response.status}: ${response.statusText}`);
+          nonOkError.response = response;
+          throw nonOkError;
+        }
+      },
+      error => {  // rejected by the server?
+            let errmess = new Error(error.message);
+            throw errmess;
+      })
+    .then(response => response.json())
+    .then(promos => dispatch(addPromos(promos)))
+    .catch(error => dispatch(promosFailed(error.message)));
+}

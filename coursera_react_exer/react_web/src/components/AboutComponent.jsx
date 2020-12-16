@@ -1,28 +1,35 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, 
     Card, CardBody, CardHeader, Media, CardImg, CardTitle, CardText } from 'reactstrap';
+import { Fade, Stagger } from 'react-animation-components';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl'
 
 const RenderLeader = ({leader}) => {
     if (leader != null) {
 
         return(
             <Media key={leader.id} style={{margin: "1rem auto"}}>
-              <div className="row">  
-                <div className="col-12 col-md-3 m-1">
-                <CardImg top 
-                src={leader.image} 
-                alt={leader.name} 
-                style={{height: "150px", width: "auto"}}/>
+
+                <div className="row">  
+
+                  <div className="col-12 col-md-3 m-1">
+                    <CardImg top 
+                    src={baseUrl + leader.image} 
+                    alt={leader.name} 
+                    style={{height: "150px", width: "auto"}}/>
+                  </div>
+
+                  <div className="col-12 col-md-7 m-1">
+                    <CardBody style={{marginTop: "0", paddingTop: "0"}}>
+                      <CardTitle><h4>{leader.name}</h4></CardTitle>
+                      <CardText>{leader.designation}</CardText>
+                      <CardText>{leader.description}</CardText>
+                    </CardBody>
+                  </div>
+
                 </div>
-                <div className="col-12 col-md-7 m-1">
-                <CardBody style={{marginTop: "0", paddingTop: "0"}}>
-                  <CardTitle><h4>{leader.name}</h4></CardTitle>
-                  <CardText>{leader.designation}</CardText>
-                  <CardText>{leader.description}</CardText>
-                </CardBody>
-                </div>
-              </div>
+
             </Media>
         );
     } else{
@@ -34,9 +41,9 @@ const RenderLeader = ({leader}) => {
 
 function About(props) {
 
-    const leaders = props.leaders.map((leader) => {
+    const RenderLeaders = props.leaders.leaders.map((leader) => {
         return (
-        <div> <RenderLeader leader={leader} /> </div>
+        <Fade in> <RenderLeader leader={leader} /> </Fade>
         );
     });
 
@@ -96,7 +103,9 @@ function About(props) {
                 </div>
                 <div className="col-12">
                     <Media list>
-                        {leaders}
+                      <Stagger in>
+                          {RenderLeaders}
+                      </Stagger>
                     </Media>
                 </div>
             </div>

@@ -52,7 +52,7 @@ function RenderRatingStars({rating, maxRating}) {
 
 function RenderComments({ comments, postComment, dishId }) {
     if (comments != null){
-        return (<div>
+        return (<div key={'dishID' + dishId}>
 
             <ul class="list-unstyled">
                 <h4>Comments</h4>

@@ -1,8 +1,8 @@
 {
   "name": "ReactWebCourseraExercise",
-  "version": "4.3.2",
+  "version": "4.4.0",
   "private": true,
-  "description": "Add animations using react-animation-components",
+  "description": "ver4.4.0 Final Assignment. Added fetchLeaders() & async postFeedback() in Redux-ActionCreators and extra 'Stagger In' animations in <AboutComponent />",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

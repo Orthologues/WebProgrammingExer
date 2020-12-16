@@ -295,6 +295,28 @@
       "message": "afadsfds",
       "date": "2017-12-04T09:41:49.890Z",
       "id": 1
+    },
+    {
+      "firstname": "JIAWEI",
+      "lastname": "ZHAO",
+      "telnum": "48230948",
+      "email": "ji8842zh-s@gmail.com",
+      "agree": false,
+      "contactType": "Email",
+      "message": "Awesome! Would be better if more Hindi cuisines are present!",
+      "date": "2020-12-16T17:45:39.557Z",
+      "id": 2
+    },
+    {
+      "firstname": "Pablo",
+      "lastname": "Sanchez",
+      "telnum": "4280942089",
+      "email": "testaahhhh@gmail.com",
+      "agree": false,
+      "contactType": "Tel.",
+      "message": "Would be better if more combos are present.",
+      "date": "2020-12-16T17:47:40.993Z",
+      "id": 3
     }
   ]
 }

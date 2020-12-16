@@ -1,8 +1,8 @@
 {
   "name": "ReactWebCourseraExercise",
-  "version": "4.2.5",
+  "version": "4.3.1",
   "private": true,
-  "description": "Add 'postComment' Action by using fetch()",
+  "description": "Add animations using react-transition-group",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

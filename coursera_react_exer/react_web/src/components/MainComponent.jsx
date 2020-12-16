@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom'; 
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import Header from './HeaderComponent';
@@ -9,7 +10,9 @@ import Menu from './MenuComponent';
 import DishDetail from './DishdetailComponent'
 import Contact from './ContactComponent';
 import { postComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { actions } from 'react-redux-form';
+import '../css/animation.css';
 
 const mapDispatchToProps = dispatch => ({
   postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment)),
@@ -42,9 +45,9 @@ class Main extends Component {
 
     render() {
       
-      const HomePage = () => {
+      const HomePage = ({location}) => {
         return(
-          <Home 
+          <Home key={location.key}
           dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
           dishesLoading={this.props.dishes.isLoading}
           dishErrMess={this.props.dishes.errMess}
@@ -56,9 +59,10 @@ class Main extends Component {
         );
       }
   
-      const DishWithId = ({match}) => {
+      const DishWithId = ({match, location}) => {
         return(
-          <DishDetail dish={this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]}
+          <DishDetail key={location.key}
+          dish={this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]}
           isLoading={this.props.dishes.isLoading}
           errMess={this.props.dishes.errMess}
           comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
@@ -67,25 +71,35 @@ class Main extends Component {
         />
         );
       };
+
+      const AnimatedRouter = withRouter(({location}) => {
+          return (
+          <TransitionGroup>
+            <CSSTransition key={location.key} classNames="slide" timeout={300}>
+              <Switch location={location}>
+                  <Route path='/home' component={HomePage} />
+                  <Route exact path='/aboutus' component={() => <Aboutus leaders={this.props.leaders} />} />
+                  <Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
+                  <Route path='/menu/:dishId' component={DishWithId} />
+                  <Route exact path='/contactus' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
+                  <Redirect to="/home" />
+              </Switch>
+            </CSSTransition>
+          </TransitionGroup>
+          );  
+      });
   
       return (
         <div>
-          <Header />
-          <div>
-            <Switch>
-                <Route path='/home' component={HomePage} />
-                <Route exact path='/aboutus' component={() => <Aboutus leaders={this.props.leaders} />} />
-                <Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
-                <Route path='/menu/:dishId' component={DishWithId} />
-                <Route exact path='/contactus' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
-                <Redirect to="/home" />
-            </Switch>
-          </div>
-          <Footer />
+          <Router>
+            <Header />
+            <AnimatedRouter />
+            <Footer />
+          </Router>
         </div>
       );
     }
     
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

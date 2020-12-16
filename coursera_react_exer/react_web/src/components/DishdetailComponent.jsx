@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardImg, CardText, CardBody,
     CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import CommentForm from './CommentComponent';
@@ -10,13 +11,19 @@ import { baseUrl } from '../shared/baseUrl';
 function RenderDish({dish}) {
     if (dish != null) {
         return(
-            <Card key={dish.id}>
+            <FadeTransform in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
+            <Card>
                 <CardImg top src={baseUrl + dish.image} alt={dish.name} />
                 <CardBody>
-                  <CardTitle>{dish.name}</CardTitle>
-                  <CardText>{dish.description}</CardText>
+                    <CardTitle>{dish.name}</CardTitle>
+                    <CardText>{dish.description}</CardText>
                 </CardBody>
             </Card>
+            </FadeTransform>
+
         );
     } else{
         return(
@@ -49,9 +56,11 @@ function RenderComments({ comments, postComment, dishId }) {
 
             <ul class="list-unstyled">
                 <h4>Comments</h4>
+                <Stagger in>
                 {comments.map(commentObj=>{
                     return (
-                    <div style={{marginTop: '0.5rem'}}>
+                    <Fade in>
+                        <div style={{marginTop: '0.5rem'}}>
                         <li> <RenderRatingStars rating={commentObj.rating}
                         maxRating={5} /> 
                              {commentObj.comment}
@@ -60,8 +69,11 @@ function RenderComments({ comments, postComment, dishId }) {
                         　　{ year: 'numeric', 
                         　　  month: 'short', 
                         　　  day: '2-digit'}).format(new Date(Date.parse(commentObj.date)))}</li>
-                    </div> );
+                    </div>
+                    </Fade>
+                     );
                 })}
+                </Stagger>
             </ul>
 
             <CommentForm dishId={dishId} postComment={postComment}/>

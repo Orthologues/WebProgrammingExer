@@ -12,15 +12,6 @@ const MenuNavigator = createAppContainer(createStackNavigator( {
 },
 {
     initialRouteName: 'Menu',
-    navigationOptions: {
-        headerStyle: {
-            backgroundColor: "#512DA8"
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            color: "#fff"            
-        }
-    }
 }));
 
 

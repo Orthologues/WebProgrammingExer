@@ -6,6 +6,8 @@ import { baseUrl } from '../shared/baseUrl';
 import { DISHES } from '../shared/dishes'
 import { PROMOTIONS } from '../shared/promotions'; 
 import { LEADERS } from '../shared/leaders';
+import { Loading } from './LoadingComponent';
+
 
 const mapStateToProps = state => {
     return {
@@ -16,10 +18,18 @@ const mapStateToProps = state => {
     }
   }
 
-function RenderItem(props) {
-    
-    const item = props.item;
-    
+function RenderItem({ item, isLoading, errMess }) {
+    if (isLoading) {
+        return(
+            <Loading />
+        );
+    } else if (errMess) {
+        return(
+            <View> 
+                <Text>{errMess}</Text>
+            </View>
+        );
+    }
     if (item != null) {
         return(
             <Card
@@ -62,9 +72,15 @@ static navigationOptions = {
 render() {
     return(
         <ScrollView>
-          <RenderItem item={this.props.dishes.dishes.filter((dish) => dish.featured)[0]} />
-          <RenderItem item={this.props.promotions.promotions.filter((promo) => promo.featured)[0]} />
-          <RenderItem item={this.props.leaders.leaders.filter((leader) => leader.featured)[0]} />
+            <RenderItem item={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
+                    isLoading={this.props.dishes.isLoading}
+                    erreMess={this.props.dishes.erreMess} />
+            <RenderItem item={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}
+                    isLoading={this.props.promotions.isLoading}
+                    erreMess={this.props.promotions.erreMess} />
+            <RenderItem item={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}
+                    isLoading={this.props.leaders.isLoading}
+                    erreMess={this.props.leaders.erreMess} />
         </ScrollView>);
     }
 

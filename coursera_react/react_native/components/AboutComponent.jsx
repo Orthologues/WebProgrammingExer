@@ -33,7 +33,7 @@ const RenderLeaders = ({leaders}) => {
               title={leader.name}
               subtitle={leader.description}
               hideChevron={true}
-              leftAvatar={{source: {uri: baseUrl + item.image}}}
+              leftAvatar={{source: {uri: baseUrl + leader.image}}}
               />) 
             ) }
           </View>)

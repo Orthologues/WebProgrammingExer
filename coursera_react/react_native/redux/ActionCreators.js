@@ -3,8 +3,7 @@ import { baseUrl } from '../shared/baseUrl';
 import fetch from 'cross-fetch';
 
 export const fetchComments = () => (dispatch) => {
-    return fetch(baseUrl + 'comments', { method: 'GET', 
-    headers: { Accept: 'application/json', 'Content-Type': 'application/json' }})
+    return fetch(baseUrl + 'comments') 
     .then(response => {
         if (response.ok) {
           return response;

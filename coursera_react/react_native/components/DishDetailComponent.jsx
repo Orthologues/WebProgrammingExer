@@ -188,7 +188,9 @@ class DishDetail extends Component {
                 onFavoritePress={() => this.markFavorite(dishId)} 
                 onCommentPress={() => this.toggleModal()}/>
               <RenderComments 
-              comments={this.props.comments.comments.filter(comment => comment.dishId === dishId)} />
+              comments={typeof this.props.comments.comments.filter === 'function' ?
+              this.props.comments.comments.filter(comment => comment.dishId === dishId) :
+              this.state.comments.filter(comment => comment.dishId === dishId)} />
               <Modal animationType = {"slide"} transparent = {false}
                   visible = {this.state.newComment.showCommentForm}
                   onDismiss = {() => this.toggleModal() }

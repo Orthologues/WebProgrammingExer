@@ -220,10 +220,6 @@ class Main extends Component {
       this.props.fetchLeaders();
     }
 
-    componentDidUpdate() {
-      this.props.fetchComments();
-    }
-
     render() {
         return ( 
         <View style={{flex:1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>

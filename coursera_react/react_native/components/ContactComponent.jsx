@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import { Card } from 'react-native-elements';
+import * as Animatable from 'react-native-animatable';
+
 
 const contactInfo = [
     '121, Clear Water Bay Road',
@@ -59,11 +61,13 @@ class Contact extends Component {
 
         return(
           <ScrollView>
-            <Card>
-              <Text style={styles.cardHeaderStyle}>Contact Information</Text>
-              <View style={styles.hrStyle} />
-              <RenderContact contactInfo={contactInfo} />
-            </Card>
+            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+              <Card>
+                <Text style={styles.cardHeaderStyle}>Contact Information</Text>
+                <View style={styles.hrStyle} />
+                <RenderContact contactInfo={contactInfo} />
+              </Card>
+            </Animatable.View>
           </ScrollView>
         );
     }

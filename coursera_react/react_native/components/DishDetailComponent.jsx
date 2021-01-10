@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { DISHES } from '../shared/dishes';
 import { COMMENTS } from '../shared/comments';
+import * as Animatable from 'react-native-animatable';
 import { postFavorite, postComment } from '../redux/ActionCreators';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
@@ -72,13 +73,15 @@ function RenderComments({comments}) {
     };
     
     return (
-        <Card title='Comments' >
-        <FlatList 
-            data={comments}
-            renderItem={renderCommentItem}
-            keyExtractor={item => item.id.toString()}
-            />
-        </Card>
+        <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>        
+          <Card title='Comments' >
+            <FlatList 
+                data={comments}
+                renderItem={renderCommentItem}
+                keyExtractor={item => item.id.toString()}
+                />
+          </Card>
+        </Animatable.View>
     );
 }
 
@@ -87,29 +90,31 @@ function RenderDish({dish, favorite, onFavoritePress, onCommentPress}) {
     if (dish != null) {
         return(
         <View style={styles.formRow}>
-          <Card
-          featuredTitle={dish.name}
-          image={{uri: baseUrl + dish.image}}>
-            <Text style={{margin: 10}}>
-                {dish.description}
-            </Text>
-            <Icon
-                raised
-                reverse
-                name={ favorite ? 'heart' : 'heart-o'}
-                type='font-awesome'
-                color='#f50'
-                onPress={() => favorite ? console.log('Already favorite') : onFavoritePress()}
-                />
-            <Icon
-                raised
-                reverse
-                name={ 'pencil' }
-                type='font-awesome'
-                color='#8A2BE2'
-                onPress={() => onCommentPress()}
-                />
-          </Card>
+          <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+            <Card
+            featuredTitle={dish.name}
+            image={{uri: baseUrl + dish.image}}>
+              <Text style={{margin: 10}}>
+                  {dish.description}
+              </Text>
+              <Icon
+                  raised
+                  reverse
+                  name={ favorite ? 'heart' : 'heart-o'}
+                  type='font-awesome'
+                  color='#f50'
+                  onPress={() => favorite ? console.log('Already favorite') : onFavoritePress()}
+                  />
+              <Icon
+                  raised
+                  reverse
+                  name={ 'pencil' }
+                  type='font-awesome'
+                  color='#8A2BE2'
+                  onPress={() => onCommentPress()}
+                  />
+            </Card>
+          </Animatable.View>
         </View>     
         );
     }

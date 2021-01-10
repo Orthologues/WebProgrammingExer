@@ -4,6 +4,7 @@ import { Card, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { Loading } from './LoadingComponent';
+import * as Animatable from 'react-native-animatable';
 
 
 const ourHistory = [
@@ -81,27 +82,30 @@ class Aboutus extends Component {
 
         if (this.props.leaders.isLoading) {
           return(
-              <ScrollView>
-                  <History />
-                  <Card
-                      title='Corporate Leadership'>
-                      <Loading />
-                  </Card>
-              </ScrollView>
+            <ScrollView>
+              <History />
+              <Card
+                  title='Corporate Leadership'>
+                  <Loading />
+              </Card>
+            </ScrollView>
           );
         } else if (this.props.leaders.errMess) {
             return(
-                <ScrollView>
-                    <History />
-                    <Card
-                        title='Corporate Leadership'>
-                        <Text>{this.props.leaders.errMess}</Text>
-                    </Card>
-                </ScrollView>
+              <ScrollView>
+                <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+                <History />
+                <Card
+                    title='Corporate Leadership'>
+                    <Text>{this.props.leaders.errMess}</Text>
+                </Card>
+                </Animatable.View>
+              </ScrollView>
             );
         } 
         return(
-            <ScrollView>
+          <ScrollView>
+            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
               <Card>
                 <Text style={styles.cardHeaderStyle}>Our History</Text>
                 <View style={styles.hrStyle} />
@@ -112,7 +116,8 @@ class Aboutus extends Component {
                 <View style={styles.hrStyle} />
                 <RenderLeaders leaders={this.props.leaders.leaders}/>
               </Card>
-            </ScrollView>
+            </Animatable.View>
+      </ScrollView>
         );
     }
 }

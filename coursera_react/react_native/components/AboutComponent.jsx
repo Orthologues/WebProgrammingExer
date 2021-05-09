@@ -83,7 +83,7 @@ class Aboutus extends Component {
         if (this.props.leaders.isLoading) {
           return(
             <ScrollView>
-              <History />
+              <RenderHistory history={ourHistory} />
               <Card
                   title='Corporate Leadership'>
                   <Loading />
@@ -94,7 +94,7 @@ class Aboutus extends Component {
             return(
               <ScrollView>
                 <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
-                <History />
+                <RenderHistory history={ourHistory} />
                 <Card
                     title='Corporate Leadership'>
                     <Text>{this.props.leaders.errMess}</Text>

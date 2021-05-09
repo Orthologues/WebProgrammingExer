@@ -6,6 +6,7 @@ import { baseUrl } from '../shared/baseUrl';
 import { DISHES } from '../shared/dishes'
 import { Loading } from './LoadingComponent';
 import * as Animatable from 'react-native-animatable';
+import { Text, View } from 'react-native';
 
 
 const mapStateToProps = state => {
@@ -59,7 +60,7 @@ class Menu extends Component {
         else if (this.props.dishes.errMess) {
             return(
                 <View>            
-                    <Text>{props.dishes.errMess}</Text>
+                    <Text>{this.props.dishes.errMess}</Text>
                 </View>            
             );
         }

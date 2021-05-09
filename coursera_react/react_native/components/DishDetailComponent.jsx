@@ -90,14 +90,19 @@ class RenderDish extends Component {
     constructor(props) {
         super(props);
         this.recognizeDrag = this.recognizeDrag.bind(this);
+        this.recognizeComment = this.recognizeComment.bind(this);
         this.handleViewRef = this.handleViewRef.bind(this);
     }
 
     recognizeDrag = ({ moveX, moveY, dx, dy }) => {
-        if ( dx < -200 )
-            return true;
-        else
-            return false;
+        //from right to left
+        if ( dx < -200 ) return true;
+        return false;
+    }
+
+    recognizeComment = ({ dx }) => {
+        if ( dx > 200 ) return true; //from left to right
+        return false;
     }
 
     handleViewRef = ref => this.view = ref;
@@ -108,11 +113,12 @@ class RenderDish extends Component {
             return true;
         },
         onPanResponderGrant: () => {
+            // rubberBand(time in ms) renders shaking
             this.view.rubberBand(1000).
             then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));},
         onPanResponderEnd: (e, gestureState) => {
             console.log("pan responder end", gestureState);
-            if (this.recognizeDrag(gestureState))
+            if (this.recognizeDrag(gestureState)) {
               Alert.alert(
                 'Add Favorite',
                 'Are you sure you wish to add ' + this.props.dish.name + ' to favorite?',
@@ -122,7 +128,10 @@ class RenderDish extends Component {
                     console.log('Already favorite') : this.props.onFavoritePress()}},
                 ],
                 { cancelable: false }
-              );
+              )
+            } else if (this.recognizeComment(gestureState)) {
+                this.props.openCommentForm()
+            }
 
             return true;
         }
@@ -183,6 +192,7 @@ class DishDetail extends Component {
                 comments: '' 
             }
         }
+        this.openCommentForm = this.openCommentForm.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.resetForm = this.resetForm.bind(this);
     }
@@ -214,6 +224,16 @@ class DishDetail extends Component {
         ))
     }
 
+    openCommentForm = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            newComment: {
+                ...prevState.newComment,
+                showCommentForm: true
+            }
+        }))
+    }
+
     resetForm = () => {
         this.setState(
             {
@@ -236,7 +256,9 @@ class DishDetail extends Component {
               <RenderDish dish={this.props.dishes.dishes[+dishId]}
                 favorite={this.props.favorites.some(el => el === dishId)}
                 onFavoritePress={() => this.markFavorite(dishId)} 
-                onCommentPress={() => this.toggleModal()}/>
+                onCommentPress={() => this.toggleModal()}
+                openCommentForm={() => this.openCommentForm()}
+                />
               <RenderComments 
               comments={typeof this.props.comments.comments.filter === 'function' ?
               this.props.comments.comments.filter(comment => comment.dishId === dishId) :

@@ -6,6 +6,7 @@ import Contact from './ContactComponent';
 import Aboutus from './AboutComponent';
 import DishDetail from './DishDetailComponent';
 import Reservation from './ReservationComponent';
+import Login from './LoginComponent';
 import { DISHES } from '../shared/dishes';
 import { baseUrl } from '../shared/baseUrl';
 import { connect } from 'react-redux';
@@ -86,6 +87,23 @@ const ContactNavigator = createStackNavigator({
     Contact: { screen: Contact }
 });
 
+const LoginNavigator = createStackNavigator({
+  Login: { screen: Login }
+}, {
+navigationOptions: ({ navigation }) => ({
+  headerStyle: {
+      backgroundColor: "#512DA8"
+  },
+  headerTitleStyle: {
+      color: "#fff"            
+  },
+  headerTintColor: "#fff",
+  headerLeft: <Icon name="menu" size={24}
+    iconStyle={{ color: 'white' }} 
+    onPress={ () => navigation.toggleDrawer() } />    
+})
+});
+
 const ReservationNavigator = createStackNavigator({
   Reservation: { screen: Reservation }
 }, {
@@ -148,6 +166,21 @@ const MainNavigator = createAppContainer(createDrawerNavigator({
               type='font-awesome'            
               size={24}
               color={tintColor}
+            />
+          ),
+        }
+      },
+    Login: 
+      { screen: LoginNavigator,
+        navigationOptions: {
+          title: 'Login',
+          drawerLabel: 'Login',
+          drawerIcon: ({ tintColor, focused }) => (
+            <Icon
+              name='sign-in'
+              type='font-awesome'            
+              size={24}
+              iconStyle={{ color: tintColor }}
             />
           ),
         }
@@ -228,6 +261,7 @@ const MainNavigator = createAppContainer(createDrawerNavigator({
         }
       }
 }, { drawerBackgroundColor: '#D1C4E9',
+     initialRouteName: 'Home',
      contentComponent: CustomDrawerContentComponent }));
 
 

@@ -72,10 +72,8 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
             throw error;
       })
     .then(response => response.json())
-    .then(response => {console.log(response); dispatch(addComment(response))})
-    .catch(error => { console.log(`post comments ${error.message}`); 
-                       alert(`Your comment could not be posted\nError: ${error.message}`); 
-                    });
+    .then(response => dispatch(addComment(response)))
+    .catch(error => alert(`Your comment could not be posted\nError: ${error.message}`));
 };
 
 export const fetchDishes = () => (dispatch) => {

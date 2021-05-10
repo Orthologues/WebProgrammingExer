@@ -47,7 +47,7 @@ class Home extends Component {
 
   constructor(props) {
       super(props);
-      this.animatedValue = new Animated.Value(0);        
+      this.animatedValue = new Animated.Value(0, {useNativeDriver: true});        
   }
   
   static navigationOptions = {
@@ -72,6 +72,7 @@ class Home extends Component {
       {
         toValue: 8,
         duration: 8000,
+        useNativeDriver: true,
         easing: Easing.linear
       }
     ).start(() => this.animate());
@@ -94,19 +95,22 @@ class Home extends Component {
 
       return(
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
-          <Animated.View style={{ width: '100%', transform: [{translateX: xpos1}]}}>
+          <Animated.View useNativeDriver={true}
+          style={{ width: '100%', transform: [{translateX: xpos1}]}}>
               <RenderItem item={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
                   isLoading={this.props.dishes.isLoading}
                   erreMess={this.props.dishes.erreMess} 
                   />
           </Animated.View>
-          <Animated.View style={{ width: '100%',  transform: [{translateX: xpos2}]}}>
+          <Animated.View useNativeDriver={true}
+          style={{ width: '100%',  transform: [{translateX: xpos2}]}}>
               <RenderItem item={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}
                   isLoading={this.props.promotions.isLoading}
                   erreMess={this.props.promotions.erreMess} 
                   />
           </Animated.View>
-          <Animated.View style={{ width: '100%',  transform: [{translateX: xpos3}]}}>
+          <Animated.View useNativeDriver={true} 
+          style={{ width: '100%',  transform: [{translateX: xpos3}]}}>
               <RenderItem item={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}
                   isLoading={this.props.leaders.isLoading}
                   erreMess={this.props.leaders.erreMess} 

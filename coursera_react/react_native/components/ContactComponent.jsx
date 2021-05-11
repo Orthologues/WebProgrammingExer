@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
+// See https://docs.expo.io/versions/v39.0.0/sdk/mail-composer/ for ref
 import * as MailComposer from 'expo-mail-composer';
 
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, FlatList, Modal, StyleSheet, Button, Alert, PanResponder } from 'react-native';
+import { Text, View, ScrollView, FlatList, Modal, StyleSheet, Button, Alert, PanResponder, Share } from 'react-native';
 import { Card, Icon, Input } from 'react-native-elements';
 import { Rating } from 'react-native-ratings';
 import { connect } from 'react-redux';
@@ -8,6 +8,8 @@ import { DISHES } from '../shared/dishes';
 import { COMMENTS } from '../shared/comments';
 import * as Animatable from 'react-native-animatable';
 import { postFavorite, postComment } from '../redux/ActionCreators';
+// See for https://docs.expo.io/versions/v39.0.0/sdk/sharing/ for ref
+import * as Sharing from 'expo-sharing';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
 
@@ -105,6 +107,12 @@ class RenderDish extends Component {
         return false;
     }
 
+    shareDish = (title, message, url) => {
+        Sharing.shareAsync(url, {
+            dialogTitle: 'Share ' + title + "messages: " + message
+        })
+    }
+
     handleViewRef = ref => this.view = ref;
 
     panResponder = PanResponder.create({
@@ -166,6 +174,17 @@ class RenderDish extends Component {
                       color='#8A2BE2'
                       onPress={() => this.props.onCommentPress()}
                       />
+                  <Icon
+                      raised
+                      reverse
+                      name='share'
+                      type='font-awesome'
+                      color='#51D2A8'
+                      style={styles.cardItem}
+                      onPress={() => this.shareDish(
+                          this.props.dish.name, 
+                          this.props.dish.description, 
+                          "file://")} />
                 </Card>
               </Animatable.View>
             </View>     

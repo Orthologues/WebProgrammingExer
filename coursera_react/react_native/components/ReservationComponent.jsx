@@ -3,13 +3,22 @@ import { Text, View, StyleSheet, Switch, Button, Alert, ScrollView } from 'react
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import * as Animatable from 'react-native-animatable';
+// The following syntax in deprecated
+// import { Permissions, Notifications } from 'expo';
+// see https://docs.expo.io/versions/v39.0.0/sdk/permissions/ for ref
+import * as Permissions from 'expo-permissions';
+// see https://docs.expo.io/versions/v39.0.0/sdk/notifications/ for ref
+import * as Notifications from 'expo-notifications';
+
+
 
 class Reservation extends Component {
     
     static defaultState = () => ({
         guests: 1,
         smoking: false,
-        date: new Date(),
+        date: `${new Date().toISOString().split("T")[0]} 
+        ${new Date().toISOString().split("T")[1].split(".")[0]}`,
         showDateSelector: false
     });
 
@@ -22,6 +31,33 @@ class Reservation extends Component {
         this.state = Reservation.defaultState();
     }
 
+    async obtainNotificationPermission() {
+        let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
+        if (permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS);
+            if (permission.status !== 'granted') {
+                Alert.alert('Permission not granted to show notifications');
+            }
+        }
+        return permission;
+    }
+
+    async presentLocalNotification(date) {
+        await this.obtainNotificationPermission();
+        Notifications.presentNotificationAsync({
+            title: 'Your Reservation',
+            body: 'Reservation for '+ date + ' requested',
+            ios: {
+                sound: true
+            },
+            android: {
+                sound: true,
+                vibrate: true,
+                color: '#512DA8'
+            }
+        });
+    }
+
     confirmReservation() {
         // more actions to redux to be added, currently the same as this.resetForm()
         this.resetForm()
@@ -32,8 +68,7 @@ class Reservation extends Component {
         // In Alert.alert(), 1st str refers to title, 2nd refers to main text
         // 3rd Array refers to buttons of options, 4rd object is { cancelable: boolean }
         Alert.alert('Your Reservation OK?', 
-        `Number of Guests: ${guests}\nSmoking? ${smoking}\nDate and Time: 
-        ${date['nativeEvent']['timestamp']}`, 
+        `Number of Guests: ${guests}\nSmoking? ${smoking}\nDate and Time: ${date}`, 
         [
             {
               text: 'CANCEL',
@@ -43,7 +78,10 @@ class Reservation extends Component {
             {
               text: 'OK',
               // 'CANCEL' and 'OK' have no differences by now
-              onPress: () => this.confirmReservation(),
+              onPress: () => {
+                this.presentLocalNotification(this.state.date)
+                this.confirmReservation();
+              },
             },
         ], 
         { cancelable: false });
@@ -95,7 +133,7 @@ class Reservation extends Component {
                     value={todayDate}
                     minimumDate={todayDate}
                     format=''
-                    mode="date"
+                    mode="date" //“datetime is iOS only”
                     placeholder="select date and Time"
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
@@ -113,10 +151,9 @@ class Reservation extends Component {
                     }
                     // ... You can check the source to find the other keys. 
                     }}
-                    onChange={date => 
-                        date &&
+                    onChange={date => date &&
                         this.setState({
-                        date: date
+                        date: date['nativeEvent']['timestamp']
                         })}
                 /> }
             </View>

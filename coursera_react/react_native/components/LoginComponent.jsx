@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 import { Card, Icon, Input, CheckBox } from 'react-native-elements';
+// see https://docs.expo.io/versions/v39.0.0/sdk/securestore/ for reference
 import * as SecureStore from 'expo-secure-store';
 
 class Login extends Component {

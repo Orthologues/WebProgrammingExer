@@ -8,6 +8,7 @@
     "cross-fetch": "^3.0.6",
     "expo": "~39.0.0",
     "expo-asset": "~8.2.0",
+    "expo-calendar": "^9.1.2",
     "expo-camera": "~9.0.0",
     "expo-image-manipulator": "~8.3.0",
     "expo-image-picker": "~9.1.1",

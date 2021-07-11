@@ -65,7 +65,7 @@ const App = () => {
 
   //use this hook to store crypto price fetched from Kraken API
   const [cryptoPrice, setCryptoPrice] = useState(DEFAULT_PRICE);
-  //defines the currency to display, options: "USD"/"EUR"/"JPY", default is "btc"
+  //defines the currency to display, options: "USD"/"EUR"/"JPY", default is "crypto"
   const [currency, setCurrency] = useState('USD');
   const [counter, setCounter] = useState(0);
   
@@ -73,64 +73,26 @@ const App = () => {
   const get_currency_crypto_pair_ticker = async () => {
     let newCryptoPrice = cryptoPrice;
     // call BTC
-    try {
-        const pair_name = `BTC${currency}`;
+    for (const crypto of ['BTC', 'ETH', 'USDT']) {
+      try {
+        const pair_name = `${crypto}${currency}`;
         const resp = await axios.get(`https://api.kraken.com/0/public/Ticker?pair=${pair_name}`);
         const price_obj = resp.data['result'];
         const price_obj_first_key = Object.keys(price_obj)[0];
         const price_data_obj = price_obj[price_obj_first_key];
         // console.log(price_data_obj)
         //Ask
-        newCryptoPrice['BTC'][0] = parseFloat(price_data_obj['a'][0]).toFixed(2);
+        newCryptoPrice[crypto][0] = parseFloat(price_data_obj['a'][0]).toFixed(2);
         //Bid
-        newCryptoPrice['BTC'][1] = parseFloat(price_data_obj['b'][0]).toFixed(2);
+        newCryptoPrice[crypto][1] = parseFloat(price_data_obj['b'][0]).toFixed(2);
         //Low in last 24h
-        newCryptoPrice['BTC'][2] = parseFloat(price_data_obj['l'][0]).toFixed(2);
+        newCryptoPrice[crypto][2] = parseFloat(price_data_obj['l'][0]).toFixed(2);
         //High in last 24h
-        newCryptoPrice['BTC'][3] = parseFloat(price_data_obj['h'][0]).toFixed(2);
+        newCryptoPrice[crypto][3] = parseFloat(price_data_obj['h'][0]).toFixed(2);
         // return to updated state
       } catch (err) {
         console.log(err.message)
       }
-    // call ETH
-    try {
-      const pair_name = `ETH${currency}`;
-      const resp = await axios.get(`https://api.kraken.com/0/public/Ticker?pair=${pair_name}`);
-      const price_obj = resp.data['result'];
-      const price_obj_first_key = Object.keys(price_obj)[0];
-      const price_data_obj = price_obj[price_obj_first_key];
-      // console.log(price_data_obj)
-      //Ask
-      newCryptoPrice['ETH'][0] = parseFloat(price_data_obj['a'][0]).toFixed(2);
-      //Bid
-      newCryptoPrice['ETH'][1] = parseFloat(price_data_obj['b'][0]).toFixed(2);
-      //Low in last 24h
-      newCryptoPrice['ETH'][2] = parseFloat(price_data_obj['l'][0]).toFixed(2);
-      //High in last 24h
-      newCryptoPrice['ETH'][3] = parseFloat(price_data_obj['h'][0]).toFixed(2);
-      // return to updated state
-    } catch (err) {
-      console.log(err.message)
-    }
-    // call USDT
-    try {
-      const pair_name = `USDT${currency}`;
-      const resp = await axios.get(`https://api.kraken.com/0/public/Ticker?pair=${pair_name}`);
-      const price_obj = resp.data['result'];
-      const price_obj_first_key = Object.keys(price_obj)[0];
-      const price_data_obj = price_obj[price_obj_first_key];
-      // console.log(price_data_obj)
-      //Ask
-      newCryptoPrice['USDT'][0] = parseFloat(price_data_obj['a'][0]).toFixed(2);
-      //Bid
-      newCryptoPrice['USDT'][1] = parseFloat(price_data_obj['b'][0]).toFixed(2);
-      //Low in last 24h
-      newCryptoPrice['USDT'][2] = parseFloat(price_data_obj['l'][0]).toFixed(2);
-      //High in last 24h
-      newCryptoPrice['USDT'][3] = parseFloat(price_data_obj['h'][0]).toFixed(2);
-      // return to updated state
-    } catch (err) {
-      console.log(err.message)
     }
     return newCryptoPrice;
   }
@@ -176,7 +138,7 @@ const App = () => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
           <Section title="Kraken-api">
-            Welcome to Kraken API!
+            Welcome to Kraken API! {counter}
           </Section>
           <Text style={{marginTop: 12, marginLeft: 8}}>Select currency:</Text>
           <Picker

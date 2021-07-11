@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../top_3_cryptos"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../AndroidStudioProjects/react-native-essential-training"
+		}
+	],
+	"settings": {}
+}

@@ -1,6 +1,8 @@
 import { IResolvers } from '@graphql-tools/utils'
 import { gql, ApolloServer } from 'apollo-server-micro'
 import { MicroRequest } from 'apollo-server-micro/dist/types';
+import mysql from 'serverless-mysql';
+
 // An issue: Error in 3.0+ version of apollo-server-micro with Next.js, requires server.start() in server less environment
 // Solution to the issue: https://github.com/apollographql/apollo-server/issues/5547
 
@@ -14,7 +16,7 @@ const typeDefs = gql`
   type Todo {
     id: Int!
     title: String!
-    status: TodoStatus!
+    todo_status: TodoStatus!
   }
   input CreateTodoInput {
     title: String!
@@ -22,10 +24,10 @@ const typeDefs = gql`
   input UpdateTodoInput {
     id: Int!
     title: String
-    status: TodoStatus
+    todo_status: TodoStatus
   }
   type Query {
-    todos(status: TodoStatus): [Todo!]!
+    todos(todo_status: TodoStatus): [Todo!]!
     todo(id: Int!): Todo
   }
   type Mutation {
@@ -35,9 +37,18 @@ const typeDefs = gql`
   }
 `;
 
-const resolvers: IResolvers = {
+interface ApolloContext {
+  sqldb: mysql.ServerlessMysql
+}
+
+const resolvers: IResolvers<any, ApolloContext> = {
   Query: {
-    todos(parent, args, context) {
+    async todos(parent, args, context) {
+      const result = await context.sqldb.query(
+        'SELECT "SVENSKA_DANSKE" as svenska_danske'
+      );
+      await sqldb.end();
+      console.log({ result });
       return []
     },
     todo(parent, args, context) {
@@ -57,7 +68,18 @@ const resolvers: IResolvers = {
   }
 }
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers });
+const sqldb = mysql({
+  config: {
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    database: process.env.MYSQL_DATABASE,
+    password: process.env.MYSQL_PASSWORD
+  },
+  // add this to solve the issue at 'https://github.com/jeremydaly/serverless-mysql/issues/117'
+  //library: require('mysql2')
+});
+
+const apolloServer = new ApolloServer({ typeDefs, resolvers, context: { sqldb } });
 const startServer = apolloServer.start();
 
 export const config = {

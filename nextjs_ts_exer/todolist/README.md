@@ -32,3 +32,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Let a MySQL docker container run <b>docker-compose.yml</b>
+```bash
+docker-compose up
+```
+
+## Run interactive SQL inside the docker container
+```bash
+docker exec -i todolist_mysql_1 sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" $MYSQL_DATABASE' < db/schema.sql 
+```
+This command would get a warning <b>mysql: [Warning] Using a password on the command line interface can be insecure.</b>

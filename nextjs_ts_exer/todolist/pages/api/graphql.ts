@@ -2,6 +2,7 @@ import { IResolvers } from '@graphql-tools/utils'
 import { gql, ApolloServer } from 'apollo-server-micro'
 import { MicroRequest } from 'apollo-server-micro/dist/types';
 import mysql from 'serverless-mysql';
+import { OkPacket } from 'mysql';
 
 // An issue: Error in 3.0+ version of apollo-server-micro with Next.js, requires server.start() in server less environment
 // Solution to the issue: https://github.com/apollographql/apollo-server/issues/5547
@@ -16,7 +17,7 @@ const typeDefs = gql`
   type Todo {
     id: Int!
     title: String!
-    todo_status: TodoStatus!
+    status: TodoStatus!
   }
   input CreateTodoInput {
     title: String!
@@ -24,10 +25,10 @@ const typeDefs = gql`
   input UpdateTodoInput {
     id: Int!
     title: String
-    todo_status: TodoStatus
+    status: TodoStatus
   }
   type Query {
-    todos(todo_status: TodoStatus): [Todo!]!
+    todos(status: TodoStatus): [Todo!]!
     todo(id: Int!): Todo
   }
   type Mutation {
@@ -41,28 +42,62 @@ interface ApolloContext {
   sqldb: mysql.ServerlessMysql
 }
 
+enum TodoStatus {
+  scheduled = "scheduled",
+  active = "active",
+  completed = "completed"
+}
+
+interface TodoDbRow {
+  id: number;
+  title: string;
+  todo_status: TodoStatus;
+}
+
+interface Todo {
+  id: number;
+  title: string;
+  status: TodoStatus;
+}
+
+
+type TodoDbQueryRes = Array<TodoDbRow>;
+
 const resolvers: IResolvers<any, ApolloContext> = {
   Query: {
-    async todos(parent, args, context) {
-      const result = await context.sqldb.query(
-        'SELECT "SVENSKA_DANSKE" as svenska_danske'
+    async todos(
+    parent, 
+    args: { status?: TodoStatus } , 
+    context): Promise<Array<Todo>> {
+      let status = args.status;
+      let query: string = 'SELECT id, title, todo_status FROM todos';
+      let queryParams: Array<string> = [];
+      if (status) {
+        query += ' WHERE todo_status = ?';
+        queryParams.push(status);
+      }
+      const todos = await context.sqldb.query<TodoDbQueryRes>(
+        query,
+        queryParams
       );
       await sqldb.end();
-      console.log({ result });
-      return []
+      return todos.map(({id, title, todo_status}) => ({id, title, status: todo_status}));
     },
     todo(parent, args, context) {
       return null
     }
   },
   Mutation: {
-    createTodo(parent, args, context) {
+    async createTodo(parent, args: { input: { title: string } }, context): Promise<Todo> {
+      const result = await context.sqldb.
+      query<OkPacket>("INSERT INTO todos (title, todo_status) VALUES(?, ?)", 
+      [args.input.title, TodoStatus.active]);
+      return { id: result.insertId, title: args.input.title, status: TodoStatus.active }
+    },
+    updateTodo(parent, args: { input: TodoDbRow }, context) {
       return null
     },
-    updateTodo(parent, args, context) {
-      return null
-    },
-    deleteTodo(parent, args, context) {
+    deleteTodo(parent, args: { id: Number }, context) {
       return null
     }
   }

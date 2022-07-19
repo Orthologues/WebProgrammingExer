@@ -33,12 +33,14 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-## Let a MySQL docker container run <code>./docker-compose.yml</code>
+## Construct a GraphQL query front-end via Next.js to conduct CRUD operations at a MySQL server that runs in a Docker container  
+
+Let a MySQL docker container run <code>./docker-compose.yml</code>
 ```bash
 docker-compose up
 ```
 
-## Load a SQL db <code>./db/schema.sql</code> (with password) using an interactive command into the docker container
+Load a SQL db <code>./db/schema.sql</code> (with password) using an interactive command into the docker container
 ```bash
 docker exec -i todolist_mysql_1 sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" $MYSQL_DATABASE' < db/schema.sql 
 ```
@@ -48,3 +50,11 @@ Then use the command for development
 ```bash
 npm run dev
 ```
+
+To automatically generate GraphQL code
+```bash
+npx graphql-codegen init
+```
+Generate the options as specified at <code>./codegen.yml</code><br/>
+Thus run <code>npm i && npm run dev && npm run codegen</code><br />
+To solve a typing error, <code>enum TodoStatus</code> at <code>generated/graphql-backend.ts</code> must have its attributes names switched to entirely non-capitalized

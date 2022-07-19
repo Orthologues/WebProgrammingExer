@@ -6,18 +6,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@graphql-codegen/typescript-resolvers": "^2.7.2",
     "@graphql-tools/utils": "^8.8.0",
     "@graphql-yoga/node": "^2.12.0",
     "apollo-server-micro": "^3.10.0",
+    "graphql": "^16.5.0",
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "serverless-mysql": "^1.5.4"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.9.0",
+    "@graphql-codegen/typescript": "2.7.2",
     "@types/node": "18.0.3",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",

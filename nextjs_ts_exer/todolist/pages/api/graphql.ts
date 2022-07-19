@@ -1,8 +1,8 @@
-import { IResolvers } from '@graphql-tools/utils'
 import { gql, ApolloServer } from 'apollo-server-micro'
 import { MicroRequest } from 'apollo-server-micro/dist/types';
 import mysql from 'serverless-mysql';
 import { OkPacket } from 'mysql';
+import { Resolvers } from '../../generated/graphql-backend'
 
 // An issue: Error in 3.0+ version of apollo-server-micro with Next.js, requires server.start() in server less environment
 // Solution to the issue: https://github.com/apollographql/apollo-server/issues/5547
@@ -54,21 +54,11 @@ interface TodoDbRow {
   todo_status: TodoStatus;
 }
 
-interface Todo {
-  id: number;
-  title: string;
-  status: TodoStatus;
-}
-
-
 type TodoDbQueryRes = Array<TodoDbRow>;
 
-const resolvers: IResolvers<any, ApolloContext> = {
+const resolvers: Resolvers<ApolloContext> = {
   Query: {
-    async todos(
-    parent, 
-    args: { status?: TodoStatus } , 
-    context): Promise<Array<Todo>> {
+    async todos(parent, args, context) {
       let status = args.status;
       let query: string = 'SELECT id, title, todo_status FROM todos';
       let queryParams: Array<string> = [];
@@ -88,16 +78,16 @@ const resolvers: IResolvers<any, ApolloContext> = {
     }
   },
   Mutation: {
-    async createTodo(parent, args: { input: { title: string } }, context): Promise<Todo> {
+    async createTodo(parent, args, context) {
       const result = await context.sqldb.
       query<OkPacket>("INSERT INTO todos (title, todo_status) VALUES(?, ?)", 
       [args.input.title, TodoStatus.active]);
       return { id: result.insertId, title: args.input.title, status: TodoStatus.active }
     },
-    updateTodo(parent, args: { input: TodoDbRow }, context) {
+    updateTodo(parent, args, context) {
       return null
     },
-    deleteTodo(parent, args: { id: Number }, context) {
+    deleteTodo(parent, args, context) {
       return null
     }
   }

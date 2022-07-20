@@ -1,8 +1,8 @@
-import { gql, ApolloServer } from 'apollo-server-micro'
+import { gql, ApolloServer, UserInputError } from 'apollo-server-micro'
 import { MicroRequest } from 'apollo-server-micro/dist/types';
-import mysql from 'serverless-mysql';
+import mysql, { ServerlessMysql } from 'serverless-mysql';
 import { OkPacket } from 'mysql';
-import { Resolvers } from '../../generated/graphql-backend'
+import { Todo, Resolvers } from '../../generated/graphql-backend'
 
 // An issue: Error in 3.0+ version of apollo-server-micro with Next.js, requires server.start() in server less environment
 // Solution to the issue: https://github.com/apollographql/apollo-server/issues/5547
@@ -39,7 +39,7 @@ const typeDefs = gql`
 `;
 
 interface ApolloContext {
-  sqldb: mysql.ServerlessMysql
+  sqldb: ServerlessMysql
 }
 
 enum TodoStatus {
@@ -54,14 +54,14 @@ interface TodoDbRow {
   todo_status: TodoStatus;
 }
 
-type TodoDbQueryRes = Array<TodoDbRow>;
+type TodoDbQueryRes = TodoDbRow[];
 
 const resolvers: Resolvers<ApolloContext> = {
   Query: {
     async todos(parent, args, context) {
-      let status = args.status;
+      const status = args.status;
       let query: string = 'SELECT id, title, todo_status FROM todos';
-      let queryParams: Array<string> = [];
+      const queryParams: string[] = [];
       if (status) {
         query += ' WHERE todo_status = ?';
         queryParams.push(status);
@@ -73,8 +73,9 @@ const resolvers: Resolvers<ApolloContext> = {
       await sqldb.end();
       return todos.map(({id, title, todo_status}) => ({id, title, status: todo_status}));
     },
-    todo(parent, args, context) {
-      return null
+    async todo(parent, args, context) {
+      const todo = await getTodoById(args.id, context.sqldb);
+      return todo;
     }
   },
   Mutation: {
@@ -84,13 +85,45 @@ const resolvers: Resolvers<ApolloContext> = {
       [args.input.title, TodoStatus.active]);
       return { id: result.insertId, title: args.input.title, status: TodoStatus.active }
     },
-    updateTodo(parent, args, context) {
-      return null
+
+    async updateTodo(parent, args, context) {
+      const id = args.input.id;
+      const db = context.sqldb;
+      const cols_to_set: string[] = [];
+      const sqlParams: Array<string|number> = [];
+      //add exisiting columns to $columns where would be SET in MySQL query
+      if (args.input.title) {
+        cols_to_set.push('title = ?');
+        sqlParams.push(args.input.title);
+      }
+      if (args.input.status) {
+        cols_to_set.push('todo_status = ?')
+        sqlParams.push(args.input.status);
+      }
+      sqlParams.push(id);
+
+      await db.query(`UPDATE todos SET ${cols_to_set.join(",")} WHERE id = ?`, sqlParams);
+      const updatedTodo = await getTodoById(id, db);
+      return updatedTodo;
     },
-    deleteTodo(parent, args, context) {
-      return null
+
+    async deleteTodo(parent, args, context) {
+      const id = args.id;
+      const db = context.sqldb; 
+      const todo = await getTodoById(id, db);
+      if(!todo) {
+        throw new UserInputError(`Your input id: ${id} is non-existent at the mySQL DB!`)
+      }
+      await db.query('DELETE FROM todos WHERE id = ?', [id]);
+      return todo;
     }
   }
+}
+
+const getTodoById = async (id: number, db: ServerlessMysql): Promise<Todo|null> => {
+  const todos = await db.query<TodoDbQueryRes>("SELECT id, title, todo_status FROM todos WHERE id = ?", 
+  [id]);
+  return todos.length ? {id: id, title: todos[0].title, status: todos[0].todo_status} : null
 }
 
 const sqldb = mysql({

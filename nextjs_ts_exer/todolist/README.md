@@ -58,3 +58,11 @@ npx graphql-codegen init
 Generate the options as specified at <code>./codegen.yml</code><br/>
 Thus run <code>npm i && npm run dev && npm run codegen</code><br />
 To solve a typing error, <code>enum TodoStatus</code> at <code>generated/graphql-backend.ts</code> must have its attributes names switched to entirely non-capitalized
+
+### Be aware that there is a git-ignored file called <code>.env.local</code> which stores sensitive info of the MYSQL db at a docker container at localhost:3306, written as
+```bash
+MYSQL_HOST=localhost
+MYSQL_USER=xxxxxx
+MYSQL_DATABASE=xxxxxx_db
+MYSQL_PASSWORD=123456_abcdef
+```

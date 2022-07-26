@@ -1,22 +1,13 @@
 import type { NextPage } from 'next'
-import { useQuery } from '@apollo/react-hooks'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { initializeApollo } from '../lib/client'
-import { TodoQueryDoc } from '../lib/queryDoc'
-
-interface TodosQuery {
-  todos: {
-    id: number, 
-    title: string,
-    status: string
-  }[]
-}
+import { useTodosQuery, TodosQuery, TodosDocument } from '../generated/graphql-frontend'
 
 // An explanation is here: https://stackoverflow.com/questions/64926174/module-not-found-cant-resolve-fs-in-next-js-application
 export const getStaticProps = async () => {
   const apolloCli = initializeApollo();
-  await apolloCli.query<TodosQuery>({ query: TodoQueryDoc });
+  await apolloCli.query<TodosQuery>({ query: TodosDocument });
   return {
     props: {
       initialApolloState: apolloCli.cache.extract()
@@ -25,7 +16,7 @@ export const getStaticProps = async () => {
 }
 
 const Home: NextPage = () => {
-  const res  = useQuery<TodosQuery>(TodoQueryDoc);
+  const res  = useTodosQuery();
   const todos = res.data?.todos;
   return (
     <div className={styles.container}>

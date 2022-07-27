@@ -16,8 +16,6 @@
     "@graphql-tools/schema": "^8.5.0",
     "@graphql-tools/utils": "^8.8.0",
     "@graphql-yoga/node": "^2.12.0",
-    "apollo-cache-inmemory": "^1.6.6",
-    "apollo-link-http": "^1.5.17",
     "apollo-link-schema": "^1.2.5",
     "apollo-server-micro": "^3.10.0",
     "deepmerge": "^4.2.2",

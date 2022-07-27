@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { createHttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import { createHttpLink } from '@apollo/client/link/http';
+import { InMemoryCache } from '@apollo/client'
 import { SchemaLink } from 'apollo-link-schema'
 import merge from 'deepmerge'
 import { schema } from '../backend/schema'

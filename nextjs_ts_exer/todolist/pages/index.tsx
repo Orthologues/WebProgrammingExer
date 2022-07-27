@@ -3,7 +3,6 @@ import Head from 'next/head'
 import { initializeApollo } from '../lib/client'
 import { useTodosQuery, TodosQuery, TodosDocument } from '../generated/graphql-frontend'
 import TodoList from '../components/TodoList'
-import Layout from '../components/TodoList'
 
 // An explanation is here: https://stackoverflow.com/questions/64926174/module-not-found-cant-resolve-fs-in-next-js-application
 export const getStaticProps = async () => {

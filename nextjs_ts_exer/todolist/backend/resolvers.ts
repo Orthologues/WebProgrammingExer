@@ -4,7 +4,7 @@ import { ServerlessMysql } from 'serverless-mysql';
 import { sqldb } from './sqldb'
 import { OkPacket } from 'mysql';
 
-const getTodoById = async (id: number, db: ServerlessMysql): Promise<Todo|null> => {
+const getTodoById = async (id: number, db: ServerlessMysql)=> {
     const todos = await db.query<TodoDbQueryRes>("SELECT id, title, todo_status FROM todos WHERE id = ?", 
     [id]);
     return todos.length ? {id: id, title: todos[0].title, status: todos[0].todo_status} : null

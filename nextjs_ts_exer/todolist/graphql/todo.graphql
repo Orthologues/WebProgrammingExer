@@ -1,0 +1,7 @@
+query Todo($id: Int!) {
+    todo(id: $id) {
+        id 
+        title
+        status
+    }
+}

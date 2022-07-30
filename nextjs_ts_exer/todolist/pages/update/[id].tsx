@@ -10,6 +10,22 @@ import { useRouter } from 'next/router';
 import Error from 'next/error';
 import UpdateTodoForm from '../../components/UpdateTodoForm';
 
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const id =
+    typeof context.params?.id === 'string'
+      ? parseInt(context.params.id, 10)
+      : NaN;
+  if (id) {
+    const apolloCli = initializeApollo();
+    await apolloCli.query<TodoQuery, TodoQueryVariables>({
+      query: TodoDocument,
+      variables: { id },
+    });
+    return { props: { initialApolloState: apolloCli.cache.extract() } };
+  }
+  return { props: {} };
+};
+
 const UpdateTodo = () => {
   const router = useRouter();
   const id =
@@ -28,22 +44,6 @@ const UpdateTodo = () => {
   ) : (
     <p>Todo not found.</p>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const id =
-    typeof context.params?.id === 'string'
-      ? parseInt(context.params.id, 10)
-      : NaN;
-  if (id) {
-    const apolloClient = initializeApollo();
-    await apolloClient.query<TodoQuery, TodoQueryVariables>({
-      query: TodoDocument,
-      variables: { id },
-    });
-    return { props: { initialApolloState: apolloClient.cache.extract() } };
-  }
-  return { props: {} };
 };
 
 export default UpdateTodo;

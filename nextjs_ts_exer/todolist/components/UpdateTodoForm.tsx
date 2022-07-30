@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useUpdateTodoMutation } from '../generated/graphql-frontend';
-import { isApolloError } from '@apollo/client';
 import { useRouter } from 'next/router';
 
 interface Values {

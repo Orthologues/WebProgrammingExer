@@ -83,6 +83,7 @@ export const resolvers: Resolvers<ApolloContext> = {
         const id = args.id;
         const db = context.sqldb; 
         const todo = await getTodoById(id, db);
+        //throw new Error("Some gql error"); //only for testing
         if(!todo) {
           throw new UserInputError(`Your input id: ${id} is non-existent at the mySQL DB!`)
         }

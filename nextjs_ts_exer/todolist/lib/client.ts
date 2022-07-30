@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 import { createHttpLink } from '@apollo/client/link/http';
 import { InMemoryCache } from '@apollo/client'
 import { SchemaLink } from 'apollo-link-schema'
-import merge from 'deepmerge'
 import { schema } from '../backend/schema'
 import { sqldb } from '../backend/sqldb'
 import { ApolloClient } from '@apollo/client'
@@ -35,13 +34,8 @@ export const initializeApollo = (initialState: MyApolloCache | null = null) => {
   // gets hydrated here
   if (initialState) {
     // Get existing cache, loaded during client side data fetching
-    const existingCache = _apolloClient.extract()
-
-    // Merge the existing cache into data passed from getStaticProps/getServerSideProps
-    const data = merge(initialState, existingCache)
-
-    // Restore the cache with the merged data
-    _apolloClient.cache.restore(data)
+    const existingCache = _apolloClient.extract();
+    _apolloClient.cache.restore({ ...existingCache, ...initialState })
   }
   // For SSG and SSR always create a new Apollo Client
   if (typeof window === 'undefined') return _apolloClient

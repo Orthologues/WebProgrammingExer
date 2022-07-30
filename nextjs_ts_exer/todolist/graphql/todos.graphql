@@ -1,5 +1,5 @@
-query Todos {
-    todos {
+query Todos($status: TodoStatus) {
+    todos(status: $status) {
         id
         title
         status

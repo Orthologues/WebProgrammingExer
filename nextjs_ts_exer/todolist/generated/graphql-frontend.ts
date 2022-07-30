@@ -97,7 +97,9 @@ export type TodoQueryVariables = Exact<{
 
 export type TodoQuery = { __typename?: 'Query', todo?: { __typename?: 'Todo', id: number, title: string, status: TodoStatus } | null };
 
-export type TodosQueryVariables = Exact<{ [key: string]: never; }>;
+export type TodosQueryVariables = Exact<{
+  status?: InputMaybe<TodoStatus>;
+}>;
 
 
 export type TodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: number, title: string, status: TodoStatus }> };
@@ -218,8 +220,8 @@ export type TodoQueryHookResult = ReturnType<typeof useTodoQuery>;
 export type TodoLazyQueryHookResult = ReturnType<typeof useTodoLazyQuery>;
 export type TodoQueryResult = Apollo.QueryResult<TodoQuery, TodoQueryVariables>;
 export const TodosDocument = gql`
-    query Todos {
-  todos {
+    query Todos($status: TodoStatus) {
+  todos(status: $status) {
     id
     title
     status
@@ -239,6 +241,7 @@ export const TodosDocument = gql`
  * @example
  * const { data, loading, error } = useTodosQuery({
  *   variables: {
+ *      status: // value for 'status'
  *   },
  * });
  */

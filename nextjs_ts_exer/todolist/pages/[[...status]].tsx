@@ -10,6 +10,7 @@ import { GetServerSideProps } from 'next';
 import { TodoStatus } from '../generated/graphql-frontend'
 import Error from 'next/error';
 import { useRef, useEffect } from 'react';
+import { Custom404 } from './404';
 
 const isTodoStatus = (value: string): value is TodoStatus => {
     return Object.values(TodoStatus).includes(value as TodoStatus);
@@ -17,10 +18,12 @@ const isTodoStatus = (value: string): value is TodoStatus => {
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const status = typeof router.query.status === 'string' ? router.query.status : undefined;
+  const status = Array.isArray(router.query.status) 
+  && router.query.status.length
+  ? router.query.status[0] : undefined;
   // pre-processing for unmatched $status
-  if (status !== undefined && !isTodoStatus(status)) { 
-      return (<Error statusCode={404}/>);
+  if (status !== undefined && !isTodoStatus(status)) {
+    return <Custom404 />;
   }
   
   const prevStatus = useRef(status);

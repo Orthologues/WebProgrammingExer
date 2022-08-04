@@ -1,13 +1,12 @@
 import java.util.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @RestController
 @EnableAutoConfiguration
-@SpringBootApplication
 public class FirstApplication {
 
     @RequestMapping("/")
@@ -23,9 +22,6 @@ public class FirstApplication {
     }
 
     public static void main(String[] args) {
-        for (String arg: args) {
-            System.out.println(arg);
-        }
         SpringApplication sprApp = new SpringApplication(FirstApplication.class);
         sprApp.setLazyInitialization(true);
         sprApp.run(args);

@@ -6,3 +6,5 @@ To update maven dependencies specified at <code>README.md</code>, we would need 
 Then, run <code>mvn spring-boot:run</code> and run <code>curl -sSL localhost:8080</code><br />
 ### 3. Production
 To generate a <code>.jar</code> file, run <code>mvn package</code> again, then run <code>java -jar target/demoproj-0.0.1-SNAPSHOT.jar</code>
+### 4. Set up lazy initialization to speed up build time
+<a>https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.spring-application.lazy-initialization</a>

@@ -1,9 +1,9 @@
-package com.exercise.demo.getroutes;
+package com.exercise.demo.hei;
 
-public class HeiSuomiBean {
+public class HeiSuomi {
     private String msg;
     
-    public HeiSuomiBean(String msg) { // constructor
+    public HeiSuomi(String msg) { // constructor
         this.msg = msg.toUpperCase();
     }
 

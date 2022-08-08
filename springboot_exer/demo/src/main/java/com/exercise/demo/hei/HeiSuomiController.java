@@ -1,4 +1,4 @@
-package com.exercise.demo.getroutes;
+package com.exercise.demo.hei;
 
 import java.util.*;
 //import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HeiSuomiController {
     
-    HashMap<Character, String> test_map;
-    List<String> map_vals;
+    private HashMap<Character, String> test_map;
+    private List<String> map_vals;
 
-    HeiSuomiController() { //controller
+    public HeiSuomiController() { //controller
         test_map = new HashMap<>();
         test_map.putIfAbsent('A', "Israel");
         test_map.putIfAbsent('B', "Hello");
@@ -23,24 +23,24 @@ public class HeiSuomiController {
         Collections.reverse(map_vals);
     }
 
-    @GetMapping("/hei-suomi")
-    public String heiSuomi() {
+    @GetMapping("/hei")
+    public String hei() {
         return String.join(" ", map_vals);
     }
 
-    @GetMapping("/hei-suomi-bean")
-    public HeiSuomiBean heiSuomiBean() {
-        HeiSuomiBean test_bean = new HeiSuomiBean("israel");
-        test_bean.setMsg(String.join(" ", map_vals));
-        return test_bean;
+    @GetMapping("/hei-suomi")
+    public HeiSuomi heiSuomi() {
+        HeiSuomi test_ = new HeiSuomi("israel");
+        test_.setMsg(String.join(" ", map_vals));
+        return test_;
     }
 
     // enable a path-variable
     @GetMapping("/hei-suomi/{id}")
-    public HeiSuomiBean heiSuomiID(@PathVariable String id) {
+    public HeiSuomi heiSuomiID(@PathVariable String id) {
         Deque<String> msgStrs = new ArrayDeque<>(map_vals);
         msgStrs.addFirst(id);
-        return new HeiSuomiBean(String.format("%s ".repeat(msgStrs.size()), msgStrs.toArray()));
+        return new HeiSuomi(String.format("%s ".repeat(msgStrs.size()), msgStrs.toArray()));
     }
     
 }

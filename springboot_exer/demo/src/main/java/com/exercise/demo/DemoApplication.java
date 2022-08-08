@@ -1,6 +1,7 @@
 package com.exercise.demo;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoApplication {
 
     @RequestMapping("/")
-    String home() {
+    private String home() {
 		List<String> homeStrs = new ArrayList<>();
 		homeStrs.add("Home");
 		homeStrs.add("Route");

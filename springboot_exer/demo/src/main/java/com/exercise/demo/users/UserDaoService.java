@@ -21,10 +21,6 @@ public class UserDaoService {
         }
     }
 
-    public UserDaoService(int id) { 
-        // empty constructor at the moment
-    }
-    
     public List<User> getAllUsers() {
         return users;
     }

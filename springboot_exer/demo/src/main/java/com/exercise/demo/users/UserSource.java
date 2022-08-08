@@ -24,8 +24,11 @@ public class UserSource {
 
     //retrieve a user by ID, i.e., GET /users/{id}
     @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable int id) {
-        return userService.getUser(id);
+    public void getUserById(@PathVariable int id) {
+        User user = userService.getUser(id);
+        if (user==null) {
+            throw new UserNotFoundException("id not found: " + id);
+        }
     }
 
     @PostMapping("/users")

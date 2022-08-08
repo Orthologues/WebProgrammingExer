@@ -15,6 +15,7 @@ public class HeiSuomi {
         return msg;
     }
 
+    @Override
     public String toString() {
         return String.format("Bean [message=%s]", msg);
     }

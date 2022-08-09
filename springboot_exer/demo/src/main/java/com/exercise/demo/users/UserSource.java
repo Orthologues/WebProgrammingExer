@@ -3,6 +3,7 @@ package com.exercise.demo.users;
 import java.util.*;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,10 +26,19 @@ public class UserSource {
 
     //retrieve a user by ID, i.e., GET /users/{id}
     @GetMapping("/users/{id}")
-    public void getUserById(@PathVariable int id) {
-        User user = userService.getUser(id);
+    public User getUserById(@PathVariable int id) {
+        User user = userService.getUserById(id);
         if (user==null) {
             throw new UserNotFoundException("id not found: " + id);
+        }
+        return user;
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUserById(@PathVariable int id) {
+        User user = userService.deleteUserById(id);
+        if (user==null) {
+            throw new UserNotFoundException("id not found for deletion: " + id);
         }
     }
 

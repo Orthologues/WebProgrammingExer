@@ -41,7 +41,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         );
         // returns to 402, only for testing
         //return new ResponseEntity<Object>(excepResp, HttpStatus.PAYMENT_REQUIRED); 
-        return new ResponseEntity<Object>(excepResp, HttpStatus.NOT_FOUND);
+        //returns to 500
+        return new ResponseEntity<Object>(excepResp, HttpStatus.INTERNAL_SERVER_ERROR); 
     }
     
 }

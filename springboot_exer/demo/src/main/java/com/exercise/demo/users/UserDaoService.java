@@ -45,7 +45,25 @@ public class UserDaoService {
         return user;
     }
 
-    public User getUser(int id) {
+    public User getUserById(int id) {
         return IdToUserInfoMap.containsKey(id) ? IdToUserInfoMap.get(id) : null;
+    }
+
+    public User deleteUserById(int id) {
+        // checks the hashmap first
+        if (!IdToUserInfoMap.containsKey(id)) {
+            return null;
+        } 
+        IdToUserInfoMap.remove(id);
+        // an iterator is thread-safe whereas directly accessing an object
+        Iterator<User> userIterator = users.iterator();
+        while (userIterator.hasNext()) {
+            User user = userIterator.next();
+            if (id == user.getId()) {
+                userIterator.remove();
+                return user;
+            }
+        }
+        return null;     
     }
 }

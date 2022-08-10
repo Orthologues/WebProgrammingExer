@@ -8,62 +8,75 @@ import org.springframework.stereotype.Component;
 //@Slf4j // to use the function "log.info(String msg)"
 @Component
 public class UserDaoService {
-    private static List<User> users = new ArrayList<>();
-    private static HashMap<Integer, User> IdToUserInfoMap = new HashMap<>();
+    // use a hashmap instead since its time complexity is O(1) instead of o(n)
+    //private static List<User> users = new ArrayList<>();
+    private static HashMap<Integer, User> IdToUserMap = new HashMap<>();
 
     static { // define static variables which would only be created with one instance
-        users.add(new User(1, "Rasmus", new Date()));
-        users.add(new User(2, "Hanna", new Date()));
-        users.add(new User(3, "Erik", new Date()));
-        for (User user: users) {
-            IdToUserInfoMap.putIfAbsent(user.getId(), new User(user.getId(), user.getName(), user.getDate()));
-        }
+        IdToUserMap.putIfAbsent(1, new User(1, "Rasmus", new Date(), 100.5));
+        IdToUserMap.putIfAbsent(2, new User(2, "Hanna", new Date(), 80.2));
+        IdToUserMap.putIfAbsent(3, new User(3, "Erik", new Date(), 120.8));
     }
 
     public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>(IdToUserMap.values());
         return users;
     }
 
     public HashMap<Integer, User> getAllUsersMap() {
-        return IdToUserInfoMap;
+        return IdToUserMap;
     }
 
-    public User save(User user) {
+    public User create(User user) {
         // user.getId() would be automatically set to zero if it's not specified
         //log.info(user.getId().toString()); //testing => 0
+        final double minAmount = User.minAmount;
+        final double maxAmount = User.maxAmount;
+        final double USD = user.getUSD();
+        if (USD < minAmount || USD > maxAmount) {
+            throw new UserIllegalAmountException(user.getName(), minAmount, maxAmount);
+        }
         Integer userId = user.getId();  
         //log.info(newId.toString()); //testing => 0
-        int newId = (userId==null || userId==0) ? Collections.max(IdToUserInfoMap.keySet())+1 : userId;
-        if (user.getDate()==null) {
-            user.setDate(new Date());
+        int newId = (userId==null || userId==0) ? Collections.max(IdToUserMap.keySet())+1 : userId;
+        if (user.getBirthdate()==null) {
+            user.setBirthdate(new Date());
         }
-        if (!IdToUserInfoMap.containsKey(newId)) {
+        if (!IdToUserMap.containsKey(newId)) {
             user.setId(newId);
-            users.add(user);
-            IdToUserInfoMap.putIfAbsent(newId, user);
+            IdToUserMap.putIfAbsent(newId, user);
         }
         return user;
     }
 
     public User getUserById(int id) {
-        return IdToUserInfoMap.containsKey(id) ? IdToUserInfoMap.get(id) : null;
+        return IdToUserMap.containsKey(id) ? IdToUserMap.get(id) : null;
     }
 
-    public User deleteUserById(int id) {
+    public User updateUserUSD(int id, double amount) {
         // checks the hashmap first
-        if (!IdToUserInfoMap.containsKey(id)) {
-            return null;
-        } 
-        IdToUserInfoMap.remove(id);
-        // an iterator is thread-safe whereas directly accessing an object
-        Iterator<User> userIterator = users.iterator();
-        while (userIterator.hasNext()) {
-            User user = userIterator.next();
-            if (id == user.getId()) {
-                userIterator.remove();
-                return user;
+        if (IdToUserMap.containsKey(id)) {
+            User user = IdToUserMap.get(id);
+            final double updatedAmount = user.getUSD() + amount; 
+            final double minAmount = User.minAmount;
+            final double maxAmount = User.maxAmount;
+            if (updatedAmount < minAmount || updatedAmount > maxAmount) {
+                throw new UserIllegalAmountException(user.getName(), minAmount, maxAmount);
             }
-        }
-        return null;     
+            user.setUSD(updatedAmount);
+            IdToUserMap.put(id, user);
+            return user;
+        } 
+        return null;
+    }
+
+    public User deleteUserById(int id) {  
+        // checks the hashmap first
+        if (IdToUserMap.containsKey(id)) {
+            User user = IdToUserMap.get(id);
+            IdToUserMap.remove(id);
+            return user;
+        } 
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 package com.exercise.demo.users;
 
 import java.util.Date;
+
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
@@ -11,36 +12,48 @@ public class User {
     private String name;
     @Past(message="The birthdate must be in the past!")
     private Date birthdate;
+    private double USD;
+    protected static final double minAmount = 4.99;
+    protected static final double maxAmount = Math.pow(10, 8);
 
-    protected User(int id, String name, Date birthdate) {
+    protected User(int id, String name, Date birthdate, double USD) {
         super(); // no parent class at the moment
         this.id = id;
         this.name = name;
         this.birthdate = birthdate;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.USD = USD;
     }
 
     public Integer getId() {
-        return id;
+        return this.id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    public Date getBirthdate() {
+        return this.birthdate;
     }
 
-    public void setDate(Date birthdate) {
+    public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
 
-    public Date getDate() {
-        return birthdate;
+    public double getUSD() {
+        return this.USD;
+    }
+
+    public void setUSD(double USD) {
+        this.USD = USD;
     }
     
     @Override

@@ -1,15 +1,26 @@
 package com.exercise.demo.hei;
 
+import java.net.URI;
 import java.util.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 //import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 public class HeiSuomiController {
     
+    @Autowired
+    private MessageSource helloFinlandMsgSrc;
     private HashMap<Character, String> test_map;
     private List<String> map_vals;
 
@@ -30,9 +41,9 @@ public class HeiSuomiController {
 
     @GetMapping("/hei-suomi")
     public HeiSuomi heiSuomi() {
-        HeiSuomi test_ = new HeiSuomi("israel");
-        test_.setMsg(String.join(" ", map_vals));
-        return test_;
+        HeiSuomi test_obj = new HeiSuomi("israel");
+        test_obj.setMsg(String.join(" ", map_vals));
+        return test_obj;
     }
 
     // enable a path-variable
@@ -42,5 +53,24 @@ public class HeiSuomiController {
         msgStrs.addFirst(id);
         return new HeiSuomi(String.format("%s ".repeat(msgStrs.size()), msgStrs.toArray()));
     }
-    
+
+    @GetMapping("/hei-suomi/lang")
+    public ResponseEntity<String> HeiSuomiMultiLang(
+        //@RequestHeader(name="Accept-Language", required = false) Locale locale
+    ) {
+        Locale reqLocale = LocaleContextHolder.getLocale();
+        URI reqUri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+        HttpHeaders respHeaders = new HttpHeaders();
+        respHeaders.setLocation(reqUri);
+        respHeaders.set("Locale", reqLocale.toString());
+        respHeaders.set("Requested-Language", reqLocale.getDisplayLanguage());
+        String helloFinlandMsg = helloFinlandMsgSrc.getMessage(
+            "hello.finland.message", null, "Hello Finland", reqLocale
+        );
+        return new ResponseEntity<>(
+            helloFinlandMsg, // resp body as a string
+            respHeaders, 
+            HttpStatus.NON_AUTHORITATIVE_INFORMATION)
+        ;
+    }
 }

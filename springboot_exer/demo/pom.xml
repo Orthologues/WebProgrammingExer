@@ -37,6 +37,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
+		<!-- visit localhost:8080/actuator to monitor APIs -->
+		<!-- remember to install the "JSON formatter" plugin at Chrome -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 		<!-- HATEHOS: Hypermedia as the engine of application state -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -48,6 +54,23 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		<!-- visit localhost:8080/swagger-ui.html to enable visualized API -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<!-- visit localhost:8080/v3/api-docs to see visualized JSON objects for the RESTful methods -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.9</version>
+		 </dependency>
 		<!-- Implementing support for XML -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>

@@ -60,7 +60,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
             "Validation failed", 
             excp.getBindingResult().toString()
         );
-        return new ResponseEntity(excepResp, HttpStatus.BAD_REQUEST); //returns to 400
+        return new ResponseEntity<>(excepResp, HttpStatus.BAD_REQUEST); //returns to 400
     }
     
 }

@@ -6,11 +6,17 @@ import javax.validation.Valid;
 import java.net.URI;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+//static imports reduces code redundancy and improves readability
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -22,18 +28,26 @@ public class UserSource {
 
     //retrieve all users, i.e., GET /users
     @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        // returns to 203 only for testing
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
     //retrieve a user by ID, i.e., GET /users/{id}
     @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable int id) {
+    public EntityModel<User> getUserById(@PathVariable int id) {
         User user = userService.getUserById(id);
         if (user==null) {
             throw new UserNotFoundException("id not found: " + id);
         }
-        return user;
+        EntityModel<User> userModel = EntityModel.of(user);
+        WebMvcLinkBuilder usersLinkBuilder = linkTo(methodOn(this.getClass()).getAllUsers());
+        Link allUsersLink = usersLinkBuilder.withRel("All-users");
+        userModel.add(allUsersLink);
+        int latestAddedUserId = userService.getAllUsers().get(userService.getAllUsers().size() - 1).getId();
+        Link latestAddedUserLink = linkTo(methodOn(this.getClass()).getUserById(latestAddedUserId)).withRel("Latest-added-user");
+        userModel.add(latestAddedUserLink);
+        return userModel;
     }
 
     @DeleteMapping("/users/{id}")

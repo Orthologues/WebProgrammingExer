@@ -1,13 +1,18 @@
 package com.exercise.demo.users;
 
 import java.util.Date;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 public class User {
     private Integer id; // could be either int or null
+    //@Size to validate an attribute's value between the attributes min and max
+    @Size(min=2, max=20, message="Name should have between 2-20 characters!")
     private String name;
+    @Past(message="The birthdate must be in the past!")
     private Date birthdate;
 
-    public User(int id, String name, Date birthdate) {
+    protected User(int id, String name, Date birthdate) {
         super(); // no parent class at the moment
         this.id = id;
         this.name = name;

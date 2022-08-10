@@ -2,8 +2,10 @@ package com.exercise.demo.exceptions;
 
 import java.util.Date;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +21,7 @@ import com.exercise.demo.users.UserNotFoundException;
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<Object> handleAllExceptions(Exception excp, WebRequest req) {
+    public final ResponseEntity<Object> handleGeneric(Exception excp, WebRequest req) {
         ExceptionResponse excepResp = new ExceptionResponse(
             new Date(), 
             excp.getMessage(), 
@@ -32,7 +34,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public final ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException excp, 
+    public final ResponseEntity<Object> handleUserNotFound(UserNotFoundException excp, 
         WebRequest req) {
         ExceptionResponse excepResp = new ExceptionResponse(
             new Date(), 
@@ -42,7 +44,23 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         // returns to 402, only for testing
         //return new ResponseEntity<Object>(excepResp, HttpStatus.PAYMENT_REQUIRED); 
         //returns to 500
-        return new ResponseEntity<Object>(excepResp, HttpStatus.INTERNAL_SERVER_ERROR); 
+        return new ResponseEntity<Object>(excepResp, HttpStatus.NOT_FOUND); 
+    }
+
+    @Override
+    //the following decorator is unnecessary since this method already exists. Just override it.
+    //@ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+        MethodArgumentNotValidException excp, 
+        HttpHeaders headers, 
+        HttpStatus status,
+        WebRequest req) {
+        ExceptionResponse excepResp = new ExceptionResponse(
+            new Date(), 
+            "Validation failed", 
+            excp.getBindingResult().toString()
+        );
+        return new ResponseEntity(excepResp, HttpStatus.BAD_REQUEST); //returns to 400
     }
     
 }

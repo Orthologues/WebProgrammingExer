@@ -30,11 +30,12 @@ const UpdateTodo = () => {
   const router = useRouter();
   const id =
     typeof router.query.id === 'string' ? parseInt(router.query.id, 10) : NaN;
+  const { data, loading, error } = useTodoQuery({ variables: { id } });
+  const todo = data?.todo;
+  
   if (!id) {
     return <Error statusCode={404} />;
   }
-  const { data, loading, error } = useTodoQuery({ variables: { id } });
-  const todo = data?.todo;
   return loading ? (
     <p>Loading...</p>
   ) : error ? (

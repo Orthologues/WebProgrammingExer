@@ -1,32 +1,28 @@
 import { UserInputError } from 'apollo-server-micro'
-import { Todo, Resolvers } from '../generated/graphql-backend'
+import { Resolvers } from '../generated/graphql-backend'
 import { ServerlessMysql } from 'serverless-mysql';
 import { sqldb } from './sqldb'
 import { OkPacket } from 'mysql';
-
-const getTodoById = async (id: number, db: ServerlessMysql)=> {
-    const todos = await db.query<TodoDbQueryRes>("SELECT id, title, todo_status FROM todos WHERE id = ?", 
-    [id]);
-    return todos.length ? {id: id, title: todos[0].title, status: todos[0].todo_status} : null
- }
+import { TodoStatus } from '../generated/graphql-frontend'
 
 interface ApolloContext {
     sqldb: ServerlessMysql
-  }
+}
   
-  enum TodoStatus {
-    scheduled = "scheduled",
-    active = "active",
-    completed = "completed"
-  }
-  
-  interface TodoDbRow {
+interface TodoDbRow {
     id: number;
     title: string;
     todo_status: TodoStatus;
-  }
+}
   
-  type TodoDbQueryRes = TodoDbRow[];
+type TodoDbQueryRes = TodoDbRow[];
+
+
+const getTodoById = async (id: number, db: ServerlessMysql)=> {
+  const todos = await db.query<TodoDbQueryRes>("SELECT id, title, todo_status FROM todos WHERE id = ?", 
+  [id]);
+  return todos.length ? {id: id, title: todos[0].title, status: todos[0].todo_status} : null
+}
 
 export const resolvers: Resolvers<ApolloContext> = {
     Query: {
@@ -54,8 +50,8 @@ export const resolvers: Resolvers<ApolloContext> = {
       async createTodo(parent, args, context) {
         const result = await context.sqldb.
         query<OkPacket>("INSERT INTO todos (title, todo_status) VALUES(?, ?)", 
-        [args.input.title, TodoStatus.active]);
-        return { id: result.insertId, title: args.input.title, status: TodoStatus.active }
+        [args.input.title, TodoStatus.Active]);
+        return { id: result.insertId, title: args.input.title, status: TodoStatus.Active }
       },
   
       async updateTodo(parent, args, context) {

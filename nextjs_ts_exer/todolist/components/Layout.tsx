@@ -6,7 +6,10 @@ const Layout: React.FC = ({ children }: any) => {
       <div className="page">
         <Link href="/">
           <a className="logo">
-            <img src="/logo.png" alt="logo" />
+            <picture>
+              <source srcSet="/logo.png" type="png" />
+              <img src="/logo.png" alt="Landscape picture" />
+            </picture>
           </a>
         </Link>
         {children}

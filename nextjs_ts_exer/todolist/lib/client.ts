@@ -14,9 +14,9 @@ const createIsomorphLink = () => {
     return new SchemaLink({ schema, context: { sqldb } })
   } else {
     const httpLink = createHttpLink({
-      uri: "http://localhost:3000/api/graphql"
-    })
-    return httpLink
+      uri: `http://localhost:${process.env.PORT}/api/graphql`
+    });
+    return httpLink;
   }
 }
 

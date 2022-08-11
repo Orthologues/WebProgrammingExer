@@ -2,15 +2,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, install all dependencies to <code>node_modules</code>:
 
 ```bash
-npm run dev
+npm i
 # or
-yarn dev
+yarn add
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
@@ -35,6 +33,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Construct a GraphQL query front-end via Next.js to conduct CRUD operations at a MySQL server that runs in a Docker container  
 
+To get MySQL run, please pull the latest mysql docker image first
+```bash
+docker pull mysql:latest
+```
+
 Let a MySQL docker container run <code>./docker-compose.yml</code>
 ```bash
 docker-compose up
@@ -46,9 +49,21 @@ docker exec -i todolist_mysql_1 sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" $MY
 ```
 This command would get a warning <b>mysql: [Warning] Using a password on the command line interface can be insecure.</b>
 
-Then use the command for development
+Then use the command for dev mode, and check <code>localhost:3000</code>
 ```bash
-npm run dev
+yarn dev
+```
+
+To deploy the production-mode app at <b>localhost:2999</b> instead of <b>localhost:3000</b>, first create a file <code>.env</code> at the root folder, add <code>PORT=2999</code> (switch it back to 3000 in dev mode) to the <code>/.env</code>, 
+change "scripts.start" at <code>package.json</code> to <code>node node_modules/next/dist/cli/next-start.js -p 2999</code>. In addition, add 
+```javascript
+env: {
+  PORT: process.env.PORT
+},
+```
+to <code>module.exports</code> at <code>next.config.js</code>,then update the target URI at <code>lib/client.ts</code>. Finally, add then run
+```bash
+yarn build && yarn start
 ```
 
 To automatically generate GraphQL code
@@ -56,7 +71,7 @@ To automatically generate GraphQL code
 npx graphql-codegen init
 ```
 Generate the options as specified at <code>./codegen.yml</code><br/>
-Thus run <code>npm i && npm run dev && npm run codegen</code><br />
+Thus run <code>yarn dev && npm run codegen</code><br />
 To solve a typing error, <code>enum TodoStatus</code> at <code>generated/graphql-backend.ts</code> must have its attributes names switched to entirely non-capitalized
 
 ### Be aware that there is a git-ignored file called <code>.env.local</code> which stores sensitive info of the MYSQL db at a docker container at localhost:3306, written as

@@ -73,7 +73,6 @@ const Home: NextPage = () => {
     )
 }
 
-// An explanation is here: https://stackoverflow.com/questions/64926174/module-not-found-cant-resolve-fs-in-next-js-application
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const status = typeof context.params?.status === 'string' 
       ? context.params.status : undefined;

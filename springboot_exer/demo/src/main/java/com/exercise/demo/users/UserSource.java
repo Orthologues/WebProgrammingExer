@@ -50,7 +50,7 @@ public class UserSource {
     }
 
     //retrieve a user by ID, i.e., GET /users/{id}
-    @GetMapping("/users/{id}")
+    @GetMapping(value="/users/{id}", params="currency=USD")
     // use EntityModel to implement HATEOAS which would include extra links
     public EntityModel<User> getUSDUserById(@PathVariable int id) {
         User user = userService.getUSDUserById(id);
@@ -58,12 +58,9 @@ public class UserSource {
             throw new UserNotFoundException("id not found: " + id);
         }
         EntityModel<User> userModel = EntityModel.of(user);
-        WebMvcLinkBuilder usersLinkBuilder = linkTo(methodOn(this.getClass()).getUSDUsers());
-        Link USDUsersLink = usersLinkBuilder.withRel("All-users");
-        userModel.add(USDUsersLink);
-        int latestAddedUserId = userService.getUSDUsers().get(userService.getUSDUsers().size() - 1).getId();
-        Link latestAddedUserLink = linkTo(methodOn(this.getClass()).getUSDUserById(latestAddedUserId)).withRel("Latest-added-user");
-        userModel.add(latestAddedUserLink);
+        WebMvcLinkBuilder usersLinkBuilder = linkTo(methodOn(this.getClass()).getAllUsers());
+        Link allUsersLink = usersLinkBuilder.withRel("All-users");
+        userModel.add(allUsersLink);
         return userModel;
     }
 

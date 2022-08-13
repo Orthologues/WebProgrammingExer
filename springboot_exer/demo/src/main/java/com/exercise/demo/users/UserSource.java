@@ -1,7 +1,6 @@
 package com.exercise.demo.users;
 
 import java.util.*;
-
 import javax.validation.Valid;
 import java.net.URI;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 
 @RestController
 public class UserSource {
@@ -53,7 +53,7 @@ public class UserSource {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
+    public ResponseEntity<String> createUser(@Valid @RequestBody User user) {
         User savedUser = userService.create(user);
         // respond the post sender with "application/json"
         // CREATED
@@ -63,7 +63,7 @@ public class UserSource {
         // respond the URI with status 201 with empty body
         HttpHeaders respHeaders = new HttpHeaders();
         respHeaders.setLocation(destUri);
-        return new ResponseEntity<>(savedUser, respHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<String>(savedUser.toString(), respHeaders, HttpStatus.CREATED);
     }
 
     @PatchMapping("/users/{id}")
@@ -80,7 +80,6 @@ public class UserSource {
     }
 
     @DeleteMapping("/users/{id}")
-    // "ResponseEntity<User>" is essentially the same as "User" here
     public ResponseEntity<User> deleteUserById(@PathVariable int id) { 
         User user = userService.deleteUserById(id);
         if (user==null) {

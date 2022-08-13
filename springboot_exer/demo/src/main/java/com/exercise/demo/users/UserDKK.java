@@ -1,35 +1,41 @@
 package com.exercise.demo.users;
 
 import java.util.Date;
-
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonFilter("RawDateFilter")
+public class UserDKK {
 
-public class User {
-
+    @JsonProperty("id")
     private Integer id; // could be either int or null
 
+    @JsonProperty("name")
     //@Size to validate an attribute's value between the attributes min and max
     @Size(min=2, max=20, message="Name should have between 2-20 characters!")
     private String name;
 
+    @JsonProperty("registrationDate")
     @Past(message="The registration date must be in the past!")
     private Date registrationDate;
     
+    @JsonProperty("signedUpDate")
     private String signedUpDate;
 
-    private double USD;
+    @JsonProperty("DKK")
+    private double DKK;
 
-    protected static final double minAmount = 4.99;
-    protected static final double maxAmount = Math.pow(10, 8);
+    protected static final double minAmount = 30;
+    protected static final double maxAmount = 7 * Math.pow(10, 8);
 
-    public User(Integer id, String name, Date registrationDate, String signedUpDate, double USD) {
+    public UserDKK(Integer id, String name, Date registrationDate, String signedUpDate, double DKK) {
         this.id = id;
         this.name = name;
         this.registrationDate = registrationDate;
         this.signedUpDate = signedUpDate;
-        this.USD = USD;
+        this.DKK = DKK;
     }    
 
     public Integer getId() {
@@ -64,17 +70,17 @@ public class User {
         this.signedUpDate = signedUpDate;
     }
 
-    public double getUSD() {
-        return this.USD;
+    public double getDKK() {
+        return this.DKK;
     }
 
-    public void setUSD(double USD) {
-        this.USD = USD;
+    public void setDKK(double DKK) {
+        this.DKK = DKK;
     }
     
     @Override
     public String toString() {
-        return String.format("Bean [id=%s, name=%s, registrationDate=%s owns %.2f USD]", id, name, registrationDate, USD);
+        return String.format("Bean [id=%s, name=%s, registrationDate=%s owns %.1f DKK]", id, name, registrationDate, DKK);
     }
 
 }

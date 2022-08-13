@@ -28,33 +28,62 @@ public class UserSource {
     @Autowired //allows Spring to resolve and inject collaborating beans into our bean
     private UserDaoService userService;
 
-    //retrieve all users, i.e., GET /users
+    //retrieve all users with USD or DKK account, i.e., GET /users
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+    public ResponseEntity<List<Object>> getAllUsers() {
+        List<Object> allUsers = new ArrayList<>();
+        allUsers.addAll(userService.getUSDUsers());
+        allUsers.addAll(userService.getDKKUsers());
+        return new ResponseEntity<>(allUsers, HttpStatus.OK);
+    }
+
+    //retrieve all users with USD account (with params)
+    @GetMapping(value="/users", params="currency=USD")
+    public ResponseEntity<List<User>> getUSDUsers() {
+        return new ResponseEntity<>(userService.getUSDUsers(), HttpStatus.OK);
+    }
+
+    //retrieve all users with DKK account (with params)
+    @GetMapping(value="/users", params="currency=DKK")
+    public ResponseEntity<List<DKKUser>> getDKKUsers() {
+        return new ResponseEntity<>(userService.getDKKUsers(), HttpStatus.OK);
     }
 
     //retrieve a user by ID, i.e., GET /users/{id}
     @GetMapping("/users/{id}")
     // use EntityModel to implement HATEOAS which would include extra links
-    public EntityModel<User> getUserById(@PathVariable int id) {
-        User user = userService.getUserById(id);
+    public EntityModel<User> getUSDUserById(@PathVariable int id) {
+        User user = userService.getUSDUserById(id);
         if (user==null) {
             throw new UserNotFoundException("id not found: " + id);
         }
         EntityModel<User> userModel = EntityModel.of(user);
-        WebMvcLinkBuilder usersLinkBuilder = linkTo(methodOn(this.getClass()).getAllUsers());
-        Link allUsersLink = usersLinkBuilder.withRel("All-users");
-        userModel.add(allUsersLink);
-        int latestAddedUserId = userService.getAllUsers().get(userService.getAllUsers().size() - 1).getId();
-        Link latestAddedUserLink = linkTo(methodOn(this.getClass()).getUserById(latestAddedUserId)).withRel("Latest-added-user");
+        WebMvcLinkBuilder usersLinkBuilder = linkTo(methodOn(this.getClass()).getUSDUsers());
+        Link USDUsersLink = usersLinkBuilder.withRel("All-users");
+        userModel.add(USDUsersLink);
+        int latestAddedUserId = userService.getUSDUsers().get(userService.getUSDUsers().size() - 1).getId();
+        Link latestAddedUserLink = linkTo(methodOn(this.getClass()).getUSDUserById(latestAddedUserId)).withRel("Latest-added-user");
         userModel.add(latestAddedUserLink);
         return userModel;
     }
 
     @PostMapping("/users")
-    public ResponseEntity<String> createUser(@Valid @RequestBody User user) {
-        User savedUser = userService.create(user);
+    public ResponseEntity<String> createUSDUser(@Valid @RequestBody User user) {
+        User savedUser = userService.createUSDUser(user);
+        // respond the post sender with "application/json"
+        // CREATED
+        // /user/{id}   id=savedUser.getId()
+        URI destUri = ServletUriComponentsBuilder. // A URI doesn't contain its protocol/domain like URL
+            fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId()).toUri();
+        // respond the URI with status 201 with empty body
+        HttpHeaders respHeaders = new HttpHeaders();
+        respHeaders.setLocation(destUri);
+        return new ResponseEntity<String>(savedUser.toString(), respHeaders, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value="/users", headers="X-API-VERSION=2")
+    public ResponseEntity<String> createDKKUser(@Valid @RequestBody DKKUser user) {
+        DKKUser savedUser = userService.createDKKUser(user);
         // respond the post sender with "application/json"
         // CREATED
         // /user/{id}   id=savedUser.getId()
@@ -79,9 +108,31 @@ public class UserSource {
         return ResponseEntity.ok(user);
     }
 
+    @PatchMapping(value="/users/{id}", params="currency=DKK")
+    // "ResponseEntity<User>" is essentially the same as "User" here
+    public ResponseEntity<DKKUser> updateUserDKK(
+        @PathVariable int id, 
+        @RequestBody HashMap<String, Double> req
+    ) { 
+        DKKUser user = userService.updateUserDKK(id, req.get("amount"));
+        if (user==null) {
+            throw new UserNotFoundException("id not found for update: " + id);
+        }
+        return ResponseEntity.ok(user);
+    }
+
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<User> deleteUserById(@PathVariable int id) { 
-        User user = userService.deleteUserById(id);
+    public ResponseEntity<User> deleteUSDUserById(@PathVariable int id) { 
+        User user = userService.deleteUSDUserById(id);
+        if (user==null) {
+            throw new UserNotFoundException("id not found for deletion: " + id);
+        } 
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping(value="/users/{id}", params="currency=DKK")
+    public ResponseEntity<DKKUser> deleteDKKUserById(@PathVariable int id) { 
+        DKKUser user = userService.deleteDKKUserById(id);
         if (user==null) {
             throw new UserNotFoundException("id not found for deletion: " + id);
         } 

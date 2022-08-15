@@ -6,6 +6,9 @@
 if ! command -v jq &> /dev/null; then
     sudo apt install -y jq
 fi &&
+if ! command -v xmllint &> /dev/null; then
+    sudo apt install -y libxml2-utils
+fi &&
 
 #user='demouser' && pwd='7U32HdpdJa24jbA2' &&
 ## We would need to provide base64 version of "demouser:7U32HdpdJa24jbA2" instead

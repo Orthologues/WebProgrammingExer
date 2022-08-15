@@ -21,8 +21,9 @@ import io.swagger.annotations.ApiModelProperty;
 public class PrimaryUser {
 
     @Id
+    // if we use '@GeneratedValue' decorator, the inserted users would start from id=1, thus automatically incrementing by 1 each
     @GeneratedValue
-    private Integer id; // could be either int or null
+    private Integer id;
     //@Size to validate an attribute's value between the attributes min and max
 
     @Size(min=2, max=20, message="Name should have between 2-20 characters!")
@@ -51,6 +52,10 @@ public class PrimaryUser {
         this.name = name;
         this.amount = amount;
         this.currency = currency;
+    }
+
+    public PrimaryUser() {
+        super();
     }
 
     @Override

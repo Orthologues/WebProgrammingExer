@@ -52,6 +52,16 @@ echo -e "\n Get all users: "
 curl -H "Authorization:Basic $base64" -sX GET localhost:8080/users \
     -H "Accept: application/xml" | xmllint --format -
 
+# Retrieve a valid USD user
+echo -e "\n Retrieve a valid USD user: "
+curl -H "Authorization:Basic $base64" -sX GET localhost:8080/users/3?currency=USD \
+    -H "Content-Type: application/json" \
+
+# Retrieve a valid DKK user
+echo -e "\n Retrieve a valid DKK user: "
+curl -H "Authorization:Basic $base64" -sX GET localhost:8080/users/2?currency=DKK \
+    -H "Content-Type: application/json" \
+
 # Update the deposit of a USD user (deposit) and test XML response body
 echo -e "\n Update a user (Anna)'s USD: "
 curl -H "Authorization:Basic $base64" -sX PATCH localhost:8080/users/2 \

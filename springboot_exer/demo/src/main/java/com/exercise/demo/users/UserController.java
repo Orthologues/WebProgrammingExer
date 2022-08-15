@@ -52,18 +52,33 @@ public class UserController {
         return new ResponseEntity<>(userService.getDKKUsers(), HttpStatus.OK);
     }
 
-    //retrieve a user by ID, i.e., GET /users/{id}
+    //retrieve a USD user by ID, i.e., GET /users/{id}?currency=USD
     @GetMapping(value="/users/{id}", params="currency=USD")
     // use EntityModel to implement HATEOAS which would include extra links
     public EntityModel<USDUser> getUSDUserById(@PathVariable int id) {
         USDUser user = userService.getUSDUserById(id);
         if (user==null) {
-            throw new UserNotFoundException("id not found: " + id);
+            throw new UserNotFoundException("USD id not found: " + id);
         }
         EntityModel<USDUser> userModel = EntityModel.of(user);
-        WebMvcLinkBuilder usersLinkBuilder = linkTo(methodOn(this.getClass()).getAllUsers());
-        Link allUsersLink = usersLinkBuilder.withRel("All-users");
-        userModel.add(allUsersLink);
+        WebMvcLinkBuilder usersLinkBuilder = linkTo(methodOn(this.getClass()).getUSDUsers());
+        Link usersLink = usersLinkBuilder.withRel("USD-users");
+        userModel.add(usersLink);
+        return userModel;
+    }
+
+    //retrieve a DKK user by ID, i.e., GET /users/{id}?currency=DKK
+    @GetMapping(value="/users/{id}", params="currency=DKK")
+    // use EntityModel to implement HATEOAS which would include extra links
+    public EntityModel<DKKUser> getDKKUserById(@PathVariable int id) {
+        DKKUser user = userService.getDKKUserById(id);
+        if (user==null) {
+            throw new UserNotFoundException("DKK id not found: " + id);
+        }
+        EntityModel<DKKUser> userModel = EntityModel.of(user);
+        WebMvcLinkBuilder usersLinkBuilder = linkTo(methodOn(this.getClass()).getDKKUsers());
+        Link usersLink = usersLinkBuilder.withRel("DKK-users");
+        userModel.add(usersLink);
         return userModel;
     }
 

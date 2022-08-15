@@ -1,9 +1,15 @@
 package com.exercise.demo.users;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+
 import javax.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModel;
@@ -22,13 +28,35 @@ public class PrimaryUser {
     @Size(min=2, max=20, message="Name should have between 2-20 characters!")
     @ApiModelProperty(notes="Name should have between 2-20 characters!")
     private String name;
-    private String signedUpDate;
 
-    public PrimaryUser(Integer id, String name, String signedUpDate) {
+    @Column(name = "DEPOSIT")
+    private float amount;
+
+    public enum Currency { //
+        USD,
+        EUR,
+        DKK,
+        SEK,
+        NOK,
+        CHF,
+        PLN,
+        JPY
+    }
+
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
+
+    public PrimaryUser(Integer id, String name, float amount, Currency currency) {
         this.id = id;
         this.name = name;
-        this.signedUpDate = signedUpDate;
-    }    
+        this.amount = amount;
+        this.currency = currency;
+    }
+
+    @Override
+	public int hashCode() {
+		return Objects.hash(id, name, currency, amount);
+	}
 
     public Integer getId() {
         return this.id;
@@ -46,17 +74,26 @@ public class PrimaryUser {
         this.name = name;
     }
 
-    public String getSignedUpDate() {
-        return this.signedUpDate;
+    public float getAmount() {
+        return this.amount;
     }
 
-    public void setSignedUpDate(String signedUpDate) {
-        this.signedUpDate = signedUpDate;
+    public void setAmount(float amount) {
+        this.amount = amount;
     }
+
+    public Currency getCurrency() {
+        return this.currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }    
     
     @Override
     public String toString() {
-        return String.format("Bean [id=%s, name=%s, signedUpDate=%s]", id, name, signedUpDate);
+        return String.format("PrimaryUser [id=%s, name=%s, deposit=%.1f, currency=%s]", 
+        id, name, amount, currency);
     }
 
 }

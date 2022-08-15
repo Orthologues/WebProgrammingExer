@@ -4,15 +4,25 @@ import java.util.Date;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description="All details about a DKK user account ")
 public class DKKUser {
 
     private Integer id; // could be either int or null
+
     //@Size to validate an attribute's value between the attributes min and max
     @Size(min=2, max=20, message="Name should have between 2-20 characters!")
+    @ApiModelProperty(notes="Name should have between 2-20 characters!")
     private String name;
+
     @Past(message="The registration date must be in the past!")
+    @ApiModelProperty(notes="The registration date must be in the past!")
     private Date registrationDate;
+    
     private String signedUpDate;
+    
     private double DKK;
 
     protected static final double minAmount = 30;

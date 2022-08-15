@@ -6,19 +6,20 @@ import java.util.stream.Collectors;
 //import lombok.extern.slf4j.Slf4j; //testing
 import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
+import com.exercise.demo.exceptions.UserIllegalAmountException;
 
 //@Slf4j // to use the function "log.info(String msg)"
 @Component
 public class UserDaoService {
     // use a hashmap instead since its time complexity is O(1) instead of o(n)
-    private static List<User> userList = new ArrayList<>();
+    private static List<USDUser> userList = new ArrayList<>();
     private static List<DKKUser> dkkUserList = new ArrayList<>();
 
     static { // define static variables which would only be created with one instance
         final Date newDate = new Date();
-        userList.add(new User(1, "Rasmus", newDate, new SimpleDateFormat("yyyy-MM-dd").format(newDate), 100.5));
-        userList.add(new User(2, "Anna", newDate, new SimpleDateFormat("yyyy-MM-dd").format(newDate), 80.2));
-        userList.add(new User(3, "Erik", newDate, new SimpleDateFormat("yyyy-MM-dd").format(newDate), 120.8));
+        userList.add(new USDUser(1, "Rasmus", newDate, new SimpleDateFormat("yyyy-MM-dd").format(newDate), 100.5));
+        userList.add(new USDUser(2, "Anna", newDate, new SimpleDateFormat("yyyy-MM-dd").format(newDate), 80.2));
+        userList.add(new USDUser(3, "Erik", newDate, new SimpleDateFormat("yyyy-MM-dd").format(newDate), 120.8));
         dkkUserList.add(new DKKUser(1, "Mads", newDate, new SimpleDateFormat("yyyy-MM-dd").format(newDate), 1500.2));
         dkkUserList.add(new DKKUser(2, "Hanne", newDate, new SimpleDateFormat("yyyy-MM-dd").format(newDate), 2000.2));
         //log.info("UniqlyIdentifyUserList!" + dkkUserList.toString());
@@ -28,7 +29,7 @@ public class UserDaoService {
         return new SimpleDateFormat("yyyy-MM-dd").format(date);
     }
     
-    public List<User> getUSDUsers() {
+    public List<USDUser> getUSDUsers() {
         return userList;
     }
 
@@ -36,11 +37,11 @@ public class UserDaoService {
         return dkkUserList;
     }
 
-    public User createUSDUser(User user) {
+    public USDUser createUSDUser(USDUser user) {
         // user.getId() would be automatically set to zero if it's not specified
         //log.info(user.getId().toString()); //testing => 0
-        final double minAmount = User.minAmount;
-        final double maxAmount = User.maxAmount;
+        final double minAmount = USDUser.minAmount;
+        final double maxAmount = USDUser.maxAmount;
         final double USD = user.getUSD();
         if (USD < minAmount || USD > maxAmount) {
             throw new UserIllegalAmountException(user.getName(), minAmount, maxAmount, "USD");
@@ -90,7 +91,7 @@ public class UserDaoService {
         return user;
     }
 
-    public User getUSDUserById(int id) {
+    public USDUser getUSDUserById(int id) {
         List<Integer> allUserIds = userList.stream().map(el -> el.getId()).collect(Collectors.toList());
         return allUserIds.contains(id) ? userList.get(allUserIds.indexOf(id)) : null;
     }
@@ -100,15 +101,15 @@ public class UserDaoService {
         return allUserIds.contains(id) ? dkkUserList.get(allUserIds.indexOf(id)) : null;
     }
 
-    public User updateUserUSD(int id, double amount) {
+    public USDUser updateUserUSD(int id, double amount) {
         // checks the hashmap first
         List<Integer> allUserIds = userList.stream().map(el -> el.getId()).collect(Collectors.toList());
         if (allUserIds.contains(id)) {
             int userInd = allUserIds.indexOf(id);
-            User user = userList.get(userInd);
+            USDUser user = userList.get(userInd);
             final double updatedAmount = user.getUSD() + amount; 
-            final double minAmount = User.minAmount;
-            final double maxAmount = User.maxAmount;
+            final double minAmount = USDUser.minAmount;
+            final double maxAmount = USDUser.maxAmount;
             if (updatedAmount < minAmount || updatedAmount > maxAmount) {
                 throw new UserIllegalAmountException(user.getName(), minAmount, maxAmount, "USD");
             }
@@ -138,12 +139,12 @@ public class UserDaoService {
         return null;
     }
 
-    public User deleteUSDUserById(int id) {  
+    public USDUser deleteUSDUserById(int id) {  
         // checks the hashmap first
         List<Integer> allUserIds = userList.stream().map(el -> el.getId()).collect(Collectors.toList());
         if (allUserIds.contains(id)) {
             int userInd = allUserIds.indexOf(id);
-            User user = userList.get(userInd);
+            USDUser user = userList.get(userInd);
             userList.remove(userInd);
             return user;
         } 

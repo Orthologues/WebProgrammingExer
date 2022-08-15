@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.exercise.demo.users.UserNotFoundException;
 
 //@RestController is a specialized version of the controller. 
 //It includes the @Controller and @ResponseBody

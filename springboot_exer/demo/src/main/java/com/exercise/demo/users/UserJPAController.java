@@ -21,15 +21,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.exercise.demo.exceptions.UserNotFoundException;
+
 
 @RestController
-public class UserSource {
+public class UserJPAController {
 
     @Autowired //allows Spring to resolve and inject collaborating beans into our bean
     private UserDaoService userService;
 
-    //retrieve all users with USD or DKK account, i.e., GET /users
-    @GetMapping("/users")
+    //retrieve all users with USD or DKK account, i.e., GET /jpa/users
+    @GetMapping("/jpa/users")
     public ResponseEntity<List<Object>> getAllUsers() {
         List<Object> allUsers = new ArrayList<>();
         allUsers.addAll(userService.getUSDUsers());
@@ -38,35 +40,35 @@ public class UserSource {
     }
 
     //retrieve all users with USD account (with params)
-    @GetMapping(value="/users", params="currency=USD")
-    public ResponseEntity<List<User>> getUSDUsers() {
+    @GetMapping(value="/jpa/users", params="currency=USD")
+    public ResponseEntity<List<USDUser>> getUSDUsers() {
         return new ResponseEntity<>(userService.getUSDUsers(), HttpStatus.OK);
     }
 
     //retrieve all users with DKK account (with params)
-    @GetMapping(value="/users", params="currency=DKK")
+    @GetMapping(value="/jpa/users", params="currency=DKK")
     public ResponseEntity<List<DKKUser>> getDKKUsers() {
         return new ResponseEntity<>(userService.getDKKUsers(), HttpStatus.OK);
     }
 
-    //retrieve a user by ID, i.e., GET /users/{id}
-    @GetMapping(value="/users/{id}", params="currency=USD")
+    //retrieve a user by ID, i.e., GET /jpa/users/{id}
+    @GetMapping(value="/jpa/users/{id}", params="currency=USD")
     // use EntityModel to implement HATEOAS which would include extra links
-    public EntityModel<User> getUSDUserById(@PathVariable int id) {
-        User user = userService.getUSDUserById(id);
+    public EntityModel<USDUser> getUSDUserById(@PathVariable int id) {
+        USDUser user = userService.getUSDUserById(id);
         if (user==null) {
             throw new UserNotFoundException("id not found: " + id);
         }
-        EntityModel<User> userModel = EntityModel.of(user);
+        EntityModel<USDUser> userModel = EntityModel.of(user);
         WebMvcLinkBuilder usersLinkBuilder = linkTo(methodOn(this.getClass()).getAllUsers());
         Link allUsersLink = usersLinkBuilder.withRel("All-users");
         userModel.add(allUsersLink);
         return userModel;
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<String> createUSDUser(@Valid @RequestBody User user) {
-        User savedUser = userService.createUSDUser(user);
+    @PostMapping("/jpa/users")
+    public ResponseEntity<String> createUSDUser(@Valid @RequestBody USDUser user) {
+        USDUser savedUser = userService.createUSDUser(user);
         // respond the post sender with "application/json"
         // CREATED
         // /user/{id}   id=savedUser.getId()
@@ -78,7 +80,7 @@ public class UserSource {
         return new ResponseEntity<String>(savedUser.toString(), respHeaders, HttpStatus.CREATED);
     }
 
-    @PostMapping(value="/users", headers="X-API-VERSION=2")
+    @PostMapping(value="/jpa/users", headers="X-API-VERSION=2")
     public ResponseEntity<String> createDKKUser(@Valid @RequestBody DKKUser user) {
         DKKUser savedUser = userService.createDKKUser(user);
         // respond the post sender with "application/json"
@@ -92,20 +94,20 @@ public class UserSource {
         return new ResponseEntity<String>(savedUser.toString(), respHeaders, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/users/{id}")
+    @PatchMapping("/jpa/users/{id}")
     // "ResponseEntity<User>" is essentially the same as "User" here
-    public ResponseEntity<User> updateUserUSD(
+    public ResponseEntity<USDUser> updateUserUSD(
         @PathVariable int id, 
         @RequestBody HashMap<String, Double> req
     ) { 
-        User user = userService.updateUserUSD(id, req.get("amount"));
+        USDUser user = userService.updateUserUSD(id, req.get("amount"));
         if (user==null) {
             throw new UserNotFoundException("id not found for update: " + id);
         }
         return ResponseEntity.ok(user);
     }
 
-    @PatchMapping(value="/users/{id}", params="currency=DKK")
+    @PatchMapping(value="/jpa/users/{id}", params="currency=DKK")
     // "ResponseEntity<User>" is essentially the same as "User" here
     public ResponseEntity<DKKUser> updateUserDKK(
         @PathVariable int id, 
@@ -118,16 +120,16 @@ public class UserSource {
         return ResponseEntity.ok(user);
     }
 
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<User> deleteUSDUserById(@PathVariable int id) { 
-        User user = userService.deleteUSDUserById(id);
+    @DeleteMapping("/jpa/users/{id}")
+    public ResponseEntity<USDUser> deleteUSDUserById(@PathVariable int id) { 
+        USDUser user = userService.deleteUSDUserById(id);
         if (user==null) {
             throw new UserNotFoundException("id not found for deletion: " + id);
         } 
         return ResponseEntity.ok(user);
     }
 
-    @DeleteMapping(value="/users/{id}", params="currency=DKK")
+    @DeleteMapping(value="/jpa/users/{id}", params="currency=DKK")
     public ResponseEntity<DKKUser> deleteDKKUserById(@PathVariable int id) { 
         DKKUser user = userService.deleteDKKUserById(id);
         if (user==null) {

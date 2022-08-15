@@ -1,4 +1,4 @@
-package com.exercise.demo.users;
+package com.exercise.demo.exceptions;
 
 import java.text.DecimalFormat;
 import org.springframework.web.bind.annotation.ResponseStatus;

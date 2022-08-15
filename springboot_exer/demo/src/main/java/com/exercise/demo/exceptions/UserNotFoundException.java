@@ -1,4 +1,4 @@
-package com.exercise.demo.users;
+package com.exercise.demo.exceptions;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
 

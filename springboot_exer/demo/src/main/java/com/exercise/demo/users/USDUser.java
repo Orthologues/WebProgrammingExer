@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description="All details about a USD user account ")
-public class User {
+public class USDUser {
 
     private Integer id; // could be either int or null
 
@@ -29,7 +29,7 @@ public class User {
     protected static final double minAmount = 4.99;
     protected static final double maxAmount = Math.pow(10, 8);
 
-    public User(Integer id, String name, Date registrationDate, String signedUpDate, double USD) {
+    public USDUser(Integer id, String name, Date registrationDate, String signedUpDate, double USD) {
         this.id = id;
         this.name = name;
         this.registrationDate = registrationDate;

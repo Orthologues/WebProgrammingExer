@@ -1,10 +1,11 @@
 package com.exercise.demo.users;
 
-import java.util.Objects;
+import java.util.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Enumerated;
@@ -17,7 +18,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "PRIMARY_USERS")
-@ApiModel(description="All details about a DKK user account ")
+@ApiModel(description="All details about a primary user account ")
 public class PrimaryUser {
 
     @Id
@@ -46,6 +47,9 @@ public class PrimaryUser {
 
     @Enumerated(EnumType.STRING)
     private Currency currency;
+
+    @OneToMany(mappedBy="user")
+    private List<Post> posts;
 
     public PrimaryUser(Integer id, String name, float amount, Currency currency) {
         this.id = id;
@@ -93,7 +97,19 @@ public class PrimaryUser {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
-    }    
+    }
+
+    public List<Post> getPosts() {
+        return this.posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public void createPost(Post post) {
+        posts.add(post);
+    }
     
     @Override
     public String toString() {

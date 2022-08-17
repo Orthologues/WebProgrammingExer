@@ -1,13 +1,15 @@
 package com.exercise.demo.users;
 
 import java.util.*;
+import com.exercise.demo.exceptions.PostIdNotFoundException;
+import java.util.stream.Collectors;
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Column;
 import javax.persistence.Enumerated;
 import javax.persistence.EnumType;
 
@@ -31,8 +33,7 @@ public class PrimaryUser {
     @ApiModelProperty(notes="Name should have between 2-20 characters!")
     private String name;
 
-    @Column(name = "DEPOSIT")
-    private float amount;
+    private BigDecimal amount;
 
     public enum Currency { //
         USD,
@@ -51,7 +52,7 @@ public class PrimaryUser {
     @OneToMany(mappedBy="user")
     private List<Post> posts;
 
-    public PrimaryUser(Integer id, String name, float amount, Currency currency) {
+    public PrimaryUser(Integer id, String name, BigDecimal amount, Currency currency) {
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -83,12 +84,12 @@ public class PrimaryUser {
         this.name = name;
     }
 
-    public float getAmount() {
+    public BigDecimal getAmount() {
         return this.amount;
     }
 
-    public void setAmount(float amount) {
-        this.amount = amount;
+    public void updateAmount(BigDecimal suppAmount) {
+        this.amount = this.amount.add(suppAmount);
     }
 
     public Currency getCurrency() {
@@ -107,8 +108,12 @@ public class PrimaryUser {
         this.posts = posts;
     }
 
-    public void createPost(Post post) {
-        posts.add(post);
+    public Post getPostById(int id) {
+        List<Post> matchedPosts = posts.stream().filter(post -> post.getId()==id).collect(Collectors.toList());
+        if (matchedPosts.size() == 0) {
+            throw new PostIdNotFoundException(this.id, name, id);
+        }
+        return matchedPosts.get(0);
     }
     
     @Override

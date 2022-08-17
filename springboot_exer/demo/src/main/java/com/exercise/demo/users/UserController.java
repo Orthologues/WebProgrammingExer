@@ -129,7 +129,7 @@ public class UserController {
         @PathVariable int id, 
         @RequestBody HashMap<String, Double> req
     ) { 
-        DKKUser user = userService.updateUserDKK(id, req.get("amount"));
+        DKKUser user = userService.updateUserDKK(id, req.containsKey("amount") ? req.get("amount") : 0);
         if (user==null) {
             throw new UserNotFoundException("id not found for update: " + id);
         }

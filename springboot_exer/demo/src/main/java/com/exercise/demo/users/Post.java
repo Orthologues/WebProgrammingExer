@@ -2,9 +2,13 @@ package com.exercise.demo.users;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
+//import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.ManyToOne;
 
 import io.swagger.annotations.ApiModel;
@@ -14,20 +18,22 @@ import io.swagger.annotations.ApiModel;
 @ApiModel(description="All posts of a primary user account ")
 public class Post {
     @Id
-    @GeneratedValue
-    private Integer id;
+    //@GeneratedValue
+    private Integer pid;
     
     private String text;
 
     @ManyToOne(fetch=FetchType.LAZY)
+    @JsonIgnore
+    @JoinColumn(name="id", nullable=false)
     private PrimaryUser user;
 
     public Integer getId() {
-        return this.id;
+        return this.pid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(Integer pid) {
+        this.pid = pid;
     }
 
     public String getText() {
@@ -48,6 +54,6 @@ public class Post {
 
     @Override
     public String toString() {
-        return String.format("ID: %d, Text: %s", id, text);
+        return String.format("ID: %d, Text: %s", pid, text);
     }
 }

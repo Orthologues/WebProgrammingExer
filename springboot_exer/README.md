@@ -9,7 +9,7 @@ To generate a <code>.jar</code> file, run <code>mvn clean package</code>, then r
 ### 4. Set up lazy initialization to speed up build time
 <a>https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.spring-application.lazy-initialization</a>
 ### 5. What is a "Bean" in SpringBoot?
-It's a self-defined extra class
+In Spring, the objects that form the backbone of your application and that are managed by the Spring IoC container are called beans.
 
 ## A more efficient way to set up a project:
 Visit <b>https://start.spring.io/</b>, choose <b>Spring Boot 2.7.2</b>, <b>JAR</b>, and <b>Java 11</b>. <br /> 

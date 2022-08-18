@@ -54,15 +54,14 @@ public class PrimaryUserJPAController {
     }
 
     @DeleteMapping("/jpa/users/{id}")
-    public ResponseEntity<PrimaryUser> deleteUserById(@PathVariable int id) { 
+    public void deleteUserById(@PathVariable int id) { 
         Optional<PrimaryUser> user = primaryUserRepo.findById(id);
         if (!user.isPresent()) {
             throw new UserNotFoundException("Primary User id not found: " + id);
         }
-        // check if the user has any posts
-        
+        // delete all posts of the user first to avoid a nested exception
+        postRepo.deleteAllPostsByUid(id);
         primaryUserRepo.deleteById(id);
-        return ResponseEntity.ok(user.get());
     }
 
     @PatchMapping("/jpa/users/{id}")
@@ -124,9 +123,9 @@ public class PrimaryUserJPAController {
         PrimaryUser user = optUser.get();
         Post matched_post = user.getPostById(pid);
         if (newTextObj.containsKey("text")) {
-            matched_post.setText(newTextObj.get("text"));
-            postRepo.deleteById(pid);
-            postRepo.save(matched_post);
+            String newText = newTextObj.get("text");
+            matched_post.setText(newText);
+            postRepo.updateTextByPid(pid, newText);
         }
         return ResponseEntity.ok(matched_post);
     }

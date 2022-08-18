@@ -1,5 +1,6 @@
 package com.exercise.demo.users;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 //import javax.persistence.GeneratedValue;
@@ -11,12 +12,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.ManyToOne;
 
-import io.swagger.annotations.ApiModel;
-
 @Entity
-@Table(name = "USER_POSTS")
-@ApiModel(description="All posts of a primary user account ")
+@Table(name = "POSTS")
 public class Post {
+    
     @Id
     //@GeneratedValue
     private Integer pid;
